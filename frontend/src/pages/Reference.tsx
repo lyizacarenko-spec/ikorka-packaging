@@ -2,6 +2,7 @@ import { useState } from "react";
 import { api } from "../api";
 import { useReferenceData } from "../useReferenceData";
 import { useAuth } from "../AuthContext";
+import { Pager, paginate } from "../Pager";
 
 export default function Reference() {
   const { managers, boxTypes, materials, productLines, periods, loading, reload } = useReferenceData();
@@ -14,6 +15,12 @@ export default function Reference() {
   const [newLine, setNewLine] = useState("");
   const [newPeriod, setNewPeriod] = useState({ date_from: "", date_to: "", label: "" });
   const [busy, setBusy] = useState(false);
+  const PAGE_SIZE = 20;
+  const [periodPage, setPeriodPage] = useState(1);
+  const [managerPage, setManagerPage] = useState(1);
+  const [linePage, setLinePage] = useState(1);
+  const [boxPage, setBoxPage] = useState(1);
+  const [materialPage, setMaterialPage] = useState(1);
 
   async function addManager(e: React.FormEvent) {
     e.preventDefault();
@@ -86,6 +93,12 @@ export default function Reference() {
 
   if (loading) return <p>Завантаження…</p>;
 
+  const periodsPaged = paginate(periods, periodPage, PAGE_SIZE);
+  const managersPaged = paginate(managers, managerPage, PAGE_SIZE);
+  const linesPaged = paginate(productLines, linePage, PAGE_SIZE);
+  const boxesPaged = paginate(boxTypes, boxPage, PAGE_SIZE);
+  const materialsPaged = paginate(materials, materialPage, PAGE_SIZE);
+
   return (
     <div>
       <h2>Довідники</h2>
@@ -113,12 +126,13 @@ export default function Reference() {
           <table>
             <thead><tr><th>Мітка</th><th>З</th><th>По</th></tr></thead>
             <tbody>
-              {periods.map((p) => (
+              {periodsPaged.pageItems.map((p) => (
                 <tr key={p.id}><td>{p.label}</td><td>{p.date_from.slice(0, 10)}</td><td>{p.date_to.slice(0, 10)}</td></tr>
               ))}
             </tbody>
           </table>
         </div>
+        <Pager page={periodPage} pageCount={periodsPaged.pageCount} setPage={setPeriodPage} />
       </div>
 
       <div className="card">
@@ -133,12 +147,13 @@ export default function Reference() {
           <table>
             <thead><tr><th>Ім'я</th><th>Активний</th></tr></thead>
             <tbody>
-              {managers.map((m) => (
+              {managersPaged.pageItems.map((m) => (
                 <tr key={m.id}><td>{m.name}</td><td>{m.is_active ? "так" : "ні"}</td></tr>
               ))}
             </tbody>
           </table>
         </div>
+        <Pager page={managerPage} pageCount={managersPaged.pageCount} setPage={setManagerPage} />
       </div>
 
       <div className="card">
@@ -153,12 +168,13 @@ export default function Reference() {
           <table>
             <thead><tr><th>Назва</th><th>За замовч.</th></tr></thead>
             <tbody>
-              {productLines.map((pl) => (
+              {linesPaged.pageItems.map((pl) => (
                 <tr key={pl.id}><td>{pl.name}</td><td>{pl.is_default ? "так" : ""}</td></tr>
               ))}
             </tbody>
           </table>
         </div>
+        <Pager page={linePage} pageCount={linesPaged.pageCount} setPage={setLinePage} />
       </div>
 
       <div className="card">
@@ -175,12 +191,13 @@ export default function Reference() {
           <table>
             <thead><tr><th>Код</th><th>Назва</th><th>Вага, кг</th></tr></thead>
             <tbody>
-              {boxTypes.map((bt) => (
+              {boxesPaged.pageItems.map((bt) => (
                 <tr key={bt.id}><td>{bt.code}</td><td>{bt.name}</td><td>{bt.weight_kg ?? "—"}</td></tr>
               ))}
             </tbody>
           </table>
         </div>
+        <Pager page={boxPage} pageCount={boxesPaged.pageCount} setPage={setBoxPage} />
       </div>
 
       <div className="card">
@@ -197,12 +214,13 @@ export default function Reference() {
           <table>
             <thead><tr><th>Код</th><th>Назва</th><th>Одиниця</th></tr></thead>
             <tbody>
-              {materials.map((m) => (
+              {materialsPaged.pageItems.map((m) => (
                 <tr key={m.id}><td>{m.code}</td><td>{m.name}</td><td>{m.unit}</td></tr>
               ))}
             </tbody>
           </table>
         </div>
+        <Pager page={materialPage} pageCount={materialsPaged.pageCount} setPage={setMaterialPage} />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { api } from "../api";
 import { useReferenceData } from "../useReferenceData";
 import type { Delivery } from "../types";
 import { useAuth } from "../AuthContext";
+import { Pager, paginate } from "../Pager";
 
 const emptyForm = {
   period_id: "",
@@ -26,6 +27,8 @@ export default function DataEntry() {
   const [filterPeriod, setFilterPeriod] = useState("");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 30;
 
   async function loadDeliveries() {
     const q = filterPeriod ? `?period_id=${filterPeriod}` : "";
@@ -34,8 +37,11 @@ export default function DataEntry() {
 
   useEffect(() => {
     loadDeliveries();
+    setPage(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterPeriod]);
+
+  const { pageCount, pageItems: pagedDeliveries } = paginate(deliveries, page, PAGE_SIZE);
 
   function update(field: keyof typeof form, value: string) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -167,7 +173,7 @@ export default function DataEntry() {
 
       <div className="card">
         <div className="toolbar">
-          <h3 style={{ margin: 0 }}>Записи</h3>
+          <h3 style={{ margin: 0 }}>Записи ({deliveries.length})</h3>
           <label>
             Фільтр за періодом
             <select className="input" value={filterPeriod} onChange={(e) => setFilterPeriod(e.target.value)}>
@@ -199,7 +205,7 @@ export default function DataEntry() {
               </tr>
             </thead>
             <tbody>
-              {deliveries.map((d) => (
+              {pagedDeliveries.map((d) => (
                 <tr key={d.id}>
                   <td>{d.period_label}</td>
                   <td>{d.manager_name}</td>
@@ -227,6 +233,7 @@ export default function DataEntry() {
             </tbody>
           </table>
         </div>
+        <Pager page={page} pageCount={pageCount} setPage={setPage} />
       </div>
     </div>
   );

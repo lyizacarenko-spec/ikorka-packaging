@@ -70,7 +70,7 @@ router.get("/stock/movements", async (req, res) => {
   }
   const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
   const { rows } = await pool.query(
-    `SELECT * FROM stock_movements ${where} ORDER BY movement_date DESC, id DESC LIMIT 200`,
+    `SELECT * FROM stock_movements ${where} ORDER BY movement_date DESC, id DESC LIMIT 5000`,
     params
   );
   res.json(rows);

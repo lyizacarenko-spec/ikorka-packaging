@@ -1,0 +1,4417 @@
+{
+ "periods": [
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "label": "1.12-10.12.25"
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "label": "11.12-20.12.25"
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "label": "21.12-31.12.25"
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "label": "01.01.-10.01.26"
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "label": "11.01.-20.01.2026"
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "label": "21.01.-31.01.2026"
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "label": "01.02.-10.02.2026"
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "label": "10.02.-20.02.2026"
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "label": "21.02.-28.02.2026"
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "label": "01.03.-10.03.2026"
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "label": "11.03.-20.03.2026"
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "label": "21.03.-31.03.2026"
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "label": "01.04.-10.04.2026"
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "label": "10.04.-20.04.2026"
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "label": "21.04.-30.04.2026"
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "label": "01.05.-10.05.2026"
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "label": "11.05.-20.05.2026"
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "label": "21.05.-31.05.2026"
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "label": "01.06.-10.06.2026"
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "label": "10.06.-20.06.2026"
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "label": "20.06.-30.06.2026"
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "label": "01.07.-10.07.2026"
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "label": "11.07.-20.07.2026"
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "label": "21.07.-31.07.2026"
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "label": "01.08.-10.08.2026"
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "label": "11.08.-20.08.2026"
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "label": "21.08.-31.08.2026"
+  }
+ ],
+ "managers": [
+  "Бабенко",
+  "Бажан",
+  "Варакула ЛГ",
+  "Варакута ГГ",
+  "Варакута ЛО",
+  "Васелец",
+  "Великий",
+  "Вовасов",
+  "Демидов",
+  "Дмитрева",
+  "Зайченко",
+  "Закурдаєва",
+  "Киндюшенко",
+  "Константинов",
+  "Кралька",
+  "Куца",
+  "Лунько",
+  "Овсюченко",
+  "Орехова",
+  "Пальчун Єгор",
+  "Пальчун Елла",
+  "Прокофʼєв",
+  "Романенко",
+  "Савченко",
+  "Шаповалова В",
+  "Щербина"
+ ],
+ "deliveries": [
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 715.0,
+   "amount_uah": 87384.7
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 204.0,
+   "amount_uah": 27605.76
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 287.0,
+   "amount_uah": 36335.11
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Орехова",
+   "channel": "HB",
+   "qty_shipped": 348.0,
+   "amount_uah": 46571.0
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 366.0,
+   "amount_uah": 46282.63
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 387.0,
+   "amount_uah": 50532.98
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 192.0,
+   "amount_uah": 25095.28
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 208.0,
+   "amount_uah": 27672.6
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 267.0,
+   "amount_uah": 36683.18
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 266.0,
+   "amount_uah": 34800.37
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 700.0,
+   "amount_uah": 81455.72
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 695.0,
+   "amount_uah": 83558.57
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 480.0,
+   "amount_uah": 55453.43
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 446.0,
+   "amount_uah": 54329.01
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 735.0,
+   "amount_uah": 83091.99
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Вовасов",
+   "channel": "GB",
+   "qty_shipped": 722.0,
+   "amount_uah": 80789.25
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 656.0,
+   "amount_uah": 77169.18
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 629.0,
+   "amount_uah": 73167.07
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 501.0,
+   "amount_uah": 59381.82
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 649.0,
+   "amount_uah": 77780.03
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Закурдаєва",
+   "channel": "GB",
+   "qty_shipped": 608.0,
+   "amount_uah": 69850.59
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Киндюшенко",
+   "channel": "GB",
+   "qty_shipped": 708.0,
+   "amount_uah": 74719.58
+  },
+  {
+   "date_from": "2025-12-01",
+   "date_to": "2025-12-10",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 547.0,
+   "amount_uah": 63300.53
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 341.0,
+   "amount_uah": 49912.31
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 761.0,
+   "amount_uah": 106823.44
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 36.0,
+   "amount_uah": 5175.68
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Орехова",
+   "channel": "HB",
+   "qty_shipped": 210.0,
+   "amount_uah": 30479.27
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 550.0,
+   "amount_uah": 81188.41
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 100.0,
+   "amount_uah": 16290.51
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 303.0,
+   "amount_uah": 42468.64
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 196.0,
+   "amount_uah": 28860.19
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 211.0,
+   "amount_uah": 31316.69
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 830.0,
+   "amount_uah": 121370.18
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Щербина",
+   "channel": "HB",
+   "qty_shipped": 280.0,
+   "amount_uah": 46321.89
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 729.0,
+   "amount_uah": 89203.45
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 688.0,
+   "amount_uah": 81829.71
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 830.0,
+   "amount_uah": 99098.25
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 516.0,
+   "amount_uah": 65438.41
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 250.0,
+   "amount_uah": 29032.72
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Вовасов",
+   "channel": "GB",
+   "qty_shipped": 608.0,
+   "amount_uah": 70075.54
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 625.0,
+   "amount_uah": 81726.84
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 597.0,
+   "amount_uah": 76109.36
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 1123.0,
+   "amount_uah": 143128.35
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 880.0,
+   "amount_uah": 107289.71
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Закурдаєва",
+   "channel": "GB",
+   "qty_shipped": 1246.0,
+   "amount_uah": 159054.52
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Киндюшенко",
+   "channel": "GB",
+   "qty_shipped": 1212.0,
+   "amount_uah": 154753.07
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 833.0,
+   "amount_uah": 106603.74
+  },
+  {
+   "date_from": "2025-12-11",
+   "date_to": "2025-12-20",
+   "manager": "Дмитрева",
+   "channel": "GB",
+   "qty_shipped": 25.0,
+   "amount_uah": 2989.69
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 890.0,
+   "amount_uah": 117670.22
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 277.0,
+   "amount_uah": 38280.3
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 124.0,
+   "amount_uah": 17367.87
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Орехова",
+   "channel": "HB",
+   "qty_shipped": 4.0,
+   "amount_uah": 655.46
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 572.0,
+   "amount_uah": 82787.75
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 164.2
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 549.0,
+   "amount_uah": 69985.89
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 662.0,
+   "amount_uah": 86464.66
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 719.0,
+   "amount_uah": 94210.56
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 116.0,
+   "amount_uah": 16686.12
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Щербина",
+   "channel": "HB",
+   "qty_shipped": 328.0,
+   "amount_uah": 48289.3
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 328.0,
+   "amount_uah": 17219.33
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 160.0,
+   "amount_uah": 19332.13
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 271.0,
+   "amount_uah": 33083.78
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 742.0,
+   "amount_uah": 86804.98
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 1060.0,
+   "amount_uah": 126325.6
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Вовасов",
+   "channel": "GB",
+   "qty_shipped": 633.0,
+   "amount_uah": 74793.84
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 1126.0,
+   "amount_uah": 137146.53
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 1119.0,
+   "amount_uah": 129016.8
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 1302.0,
+   "amount_uah": 160098.97
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 1614.0,
+   "amount_uah": 186493.31
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Закурдаєва",
+   "channel": "GB",
+   "qty_shipped": 1453.0,
+   "amount_uah": 160254.72
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Киндюшенко",
+   "channel": "GB",
+   "qty_shipped": 1454.0,
+   "amount_uah": 161608.95
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 121.0,
+   "amount_uah": 16277.0
+  },
+  {
+   "date_from": "2025-12-21",
+   "date_to": "2025-12-31",
+   "manager": "Дмитрева",
+   "channel": "GB",
+   "qty_shipped": 1077.0,
+   "amount_uah": 127727.08
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 235.0,
+   "amount_uah": 27868.43
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 73.0,
+   "amount_uah": 8639.85
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 78.0,
+   "amount_uah": 10620.14
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 185.45
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 160.0
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 166.0,
+   "amount_uah": 20721.9
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 28.0,
+   "amount_uah": 3378.38
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 217.0,
+   "amount_uah": 27300.35
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 104.0,
+   "amount_uah": 12689.03
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Щербина",
+   "channel": "HB",
+   "qty_shipped": 8.0,
+   "amount_uah": 894.38
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 205.0,
+   "amount_uah": 22490.99
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 213.0,
+   "amount_uah": 24682.42
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 211.0,
+   "amount_uah": 22123.82
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 132.0,
+   "amount_uah": 14361.63
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 187.0,
+   "amount_uah": 21882.98
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Вовасов",
+   "channel": "GB",
+   "qty_shipped": 5.0,
+   "amount_uah": 828.31
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 44.0,
+   "amount_uah": 5413.18
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 188.0,
+   "amount_uah": 20515.32
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 77.0,
+   "amount_uah": 9583.63
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 86.0,
+   "amount_uah": 9743.05
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Закурдаєва",
+   "channel": "GB",
+   "qty_shipped": 235.0,
+   "amount_uah": 26335.06
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Киндюшенко",
+   "channel": "GB",
+   "qty_shipped": 178.0,
+   "amount_uah": 20090.32
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 285.0,
+   "amount_uah": 33058.1
+  },
+  {
+   "date_from": "2026-01-01",
+   "date_to": "2026-01-10",
+   "manager": "Дмитрева",
+   "channel": "GB",
+   "qty_shipped": 204.0,
+   "amount_uah": 23888.4
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 131.0,
+   "amount_uah": 14463.17
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 474.0,
+   "amount_uah": 52489.75
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 73.0,
+   "amount_uah": 9621.72
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 328.0,
+   "amount_uah": 39685.53
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 45.0,
+   "amount_uah": 5592.71
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 17.0,
+   "amount_uah": 1551.1
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 125.0
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 16.0,
+   "amount_uah": 1818.22
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 521.0,
+   "amount_uah": 58423.08
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 29.0,
+   "amount_uah": 3264.23
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 366.0,
+   "amount_uah": 41233.36
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 324.0,
+   "amount_uah": 37314.55
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 340.0,
+   "amount_uah": 15509.53
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 134.0,
+   "amount_uah": 14853.25
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 60.0,
+   "amount_uah": 6778.89
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Вовасов",
+   "channel": "GB",
+   "qty_shipped": 237.0,
+   "amount_uah": 25412.59
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 1.0,
+   "amount_uah": 200.0
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 200.0,
+   "amount_uah": 21860.77
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 2.0,
+   "amount_uah": 432.25
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 1.0,
+   "amount_uah": 68.2
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Закурдаєва",
+   "channel": "GB",
+   "qty_shipped": 305.0,
+   "amount_uah": 33309.74
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Киндюшенко",
+   "channel": "GB",
+   "qty_shipped": 5.0,
+   "amount_uah": 48.45
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 286.0,
+   "amount_uah": 31850.12
+  },
+  {
+   "date_from": "2026-01-11",
+   "date_to": "2026-01-20",
+   "manager": "Дмитрева",
+   "channel": "GB",
+   "qty_shipped": 16.0,
+   "amount_uah": 1706.56
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 4.0,
+   "amount_uah": 468.06
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 126.0,
+   "amount_uah": 14453.81
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 120.73
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 35.0,
+   "amount_uah": 3896.82
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 112.0,
+   "amount_uah": 14907.04
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 620.0,
+   "amount_uah": 70417.06
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 634.0,
+   "amount_uah": 72267.75
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 579.0,
+   "amount_uah": 66690.3
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 116.0,
+   "amount_uah": 13492.58
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 106.0,
+   "amount_uah": 12549.1
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 29.0,
+   "amount_uah": 3185.16
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 61.0,
+   "amount_uah": 7979.94
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 10.0,
+   "amount_uah": 950.35
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 3.0,
+   "amount_uah": 340.35
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 264.0,
+   "amount_uah": 30124.37
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Вовасов",
+   "channel": "GB",
+   "qty_shipped": 127.0,
+   "amount_uah": 14464.63
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 296.0,
+   "amount_uah": 36070.44
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 5.0,
+   "amount_uah": 1555.87
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 125.0,
+   "amount_uah": 15574.4
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 178.0,
+   "amount_uah": 21096.89
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Закурдаєва",
+   "channel": "GB",
+   "qty_shipped": 57.0,
+   "amount_uah": 6181.48
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Киндюшенко",
+   "channel": "GB",
+   "qty_shipped": 211.0,
+   "amount_uah": 27292.99
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 34.0,
+   "amount_uah": 3696.84
+  },
+  {
+   "date_from": "2026-01-21",
+   "date_to": "2026-01-31",
+   "manager": "Дмитрева",
+   "channel": "GB",
+   "qty_shipped": 193.0,
+   "amount_uah": 22471.88
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 271.0,
+   "amount_uah": 30842.12
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 406.0,
+   "amount_uah": 45773.41
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 155.75
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 271.0,
+   "amount_uah": 30718.46
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 128.0,
+   "amount_uah": 16279.32
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 114.0,
+   "amount_uah": 12583.25
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 232.0,
+   "amount_uah": 26458.22
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 179.0,
+   "amount_uah": 19943.9
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 433.0,
+   "amount_uah": 48465.83
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 74.0,
+   "amount_uah": 8857.65
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 207.0,
+   "amount_uah": 23863.42
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 258.0,
+   "amount_uah": 28724.73
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 190.0,
+   "amount_uah": 22437.44
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 133.0,
+   "amount_uah": 15661.76
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Вовасов",
+   "channel": "GB",
+   "qty_shipped": 4.0,
+   "amount_uah": 454.98
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 59.0,
+   "amount_uah": 6511.53
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 6.0,
+   "amount_uah": 827.52
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 36.0,
+   "amount_uah": 4287.35
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Закурдаєва",
+   "channel": "GB",
+   "qty_shipped": 7.0,
+   "amount_uah": 712.2
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Киндюшенко",
+   "channel": "GB",
+   "qty_shipped": 13.0,
+   "amount_uah": 1424.47
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 277.0,
+   "amount_uah": 30797.01
+  },
+  {
+   "date_from": "2026-02-01",
+   "date_to": "2026-02-10",
+   "manager": "Дмитрева",
+   "channel": "GB",
+   "qty_shipped": 17.0,
+   "amount_uah": 2179.41
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 257.0,
+   "amount_uah": 31128.05
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 145.0,
+   "amount_uah": 16687.45
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 247.0,
+   "amount_uah": 28200.31
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 148.0,
+   "amount_uah": 34164.62
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 465.0,
+   "amount_uah": 57060.16
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 312.0,
+   "amount_uah": 40234.2
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 367.0,
+   "amount_uah": 45623.01
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 130.0,
+   "amount_uah": 15145.0
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 74.0,
+   "amount_uah": 9065.64
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 172.0,
+   "amount_uah": 22260.94
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 141.0,
+   "amount_uah": 16548.91
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 193.0,
+   "amount_uah": 23331.06
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 250.0,
+   "amount_uah": 33571.32
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 104.0,
+   "amount_uah": 13259.53
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 191.0,
+   "amount_uah": 21879.98
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 1.0,
+   "amount_uah": 350.0
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 55.0,
+   "amount_uah": 6915.19
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Киндюшенко",
+   "channel": "GB",
+   "qty_shipped": 4.0,
+   "amount_uah": 826.64
+  },
+  {
+   "date_from": "2026-02-10",
+   "date_to": "2026-02-20",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 122.0,
+   "amount_uah": 13236.37
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 6.0,
+   "amount_uah": 593.87
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 5.0,
+   "amount_uah": 1499.37
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 464.0,
+   "amount_uah": 56988.47
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 4.0,
+   "amount_uah": 589.43
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 132.0,
+   "amount_uah": 17063.11
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 65.0,
+   "amount_uah": 8466.84
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 89.0,
+   "amount_uah": 11936.44
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 162.0,
+   "amount_uah": 21418.23
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 50.0,
+   "amount_uah": 5951.65
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Закурдаєва",
+   "channel": "HB",
+   "qty_shipped": 472.0,
+   "amount_uah": 59977.04
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Дмитрева",
+   "channel": "HB",
+   "qty_shipped": 338.0,
+   "amount_uah": 38955.48
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 9.0,
+   "amount_uah": 1107.18
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 8.0,
+   "amount_uah": 1099.73
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 32.0,
+   "amount_uah": 4383.42
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 83.0,
+   "amount_uah": 10764.88
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 175.0,
+   "amount_uah": 22789.7
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 172.0,
+   "amount_uah": 21581.93
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 292.0,
+   "amount_uah": 34381.66
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 229.0,
+   "amount_uah": 28247.07
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 84.0,
+   "amount_uah": 8951.66
+  },
+  {
+   "date_from": "2026-02-21",
+   "date_to": "2026-02-28",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 1.0,
+   "amount_uah": 82.7
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 239.0,
+   "amount_uah": 28203.89
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 255.0,
+   "amount_uah": 29154.44
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 313.0,
+   "amount_uah": 37243.65
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 13.0,
+   "amount_uah": 1501.86
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 211.0,
+   "amount_uah": 52348.57
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 4.0,
+   "amount_uah": 402.66
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 306.0,
+   "amount_uah": 38763.23
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 284.0,
+   "amount_uah": 35549.6
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 386.0,
+   "amount_uah": 45660.29
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Закурдаєва",
+   "channel": "HB",
+   "qty_shipped": 82.0,
+   "amount_uah": 10044.05
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Дмитрева",
+   "channel": "HB",
+   "qty_shipped": 219.0,
+   "amount_uah": 23849.66
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 417.0,
+   "amount_uah": 51134.91
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 263.0,
+   "amount_uah": 29889.59
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 1.0,
+   "amount_uah": 172.55
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 88.0,
+   "amount_uah": 11300.25
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 120.0,
+   "amount_uah": 15097.13
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 13.0,
+   "amount_uah": 1513.25
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 7.0,
+   "amount_uah": 884.35
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 40.0,
+   "amount_uah": 4519.98
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 18.0,
+   "amount_uah": 2382.1
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 361.0,
+   "amount_uah": 45362.29
+  },
+  {
+   "date_from": "2026-03-01",
+   "date_to": "2026-03-10",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 299.0,
+   "amount_uah": 36717.75
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 436.0,
+   "amount_uah": 54379.82
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 123.0,
+   "amount_uah": 14176.97
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 67.0,
+   "amount_uah": 7473.99
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 598.0,
+   "amount_uah": 76349.45
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 147.0,
+   "amount_uah": 39000.26
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 10.0,
+   "amount_uah": 1432.42
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 20.0,
+   "amount_uah": 2670.48
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 24.0,
+   "amount_uah": 27771.82
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Закурдаєва",
+   "channel": "HB",
+   "qty_shipped": 279.0,
+   "amount_uah": 35538.34
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Дмитрева",
+   "channel": "HB",
+   "qty_shipped": 247.0,
+   "amount_uah": 30419.31
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 48.0,
+   "amount_uah": 6203.4
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 54.0,
+   "amount_uah": 6428.95
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 219.0,
+   "amount_uah": 27507.59
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 83.0,
+   "amount_uah": 10353.05
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 290.0,
+   "amount_uah": 36989.02
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 308.0,
+   "amount_uah": 38464.53
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 43.0,
+   "amount_uah": 4806.74
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 229.0,
+   "amount_uah": 29096.39
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 25.0,
+   "amount_uah": 3260.16
+  },
+  {
+   "date_from": "2026-03-11",
+   "date_to": "2026-03-20",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 7.0,
+   "amount_uah": 973.77
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 101.0,
+   "amount_uah": 12961.94
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 271.0,
+   "amount_uah": 34230.47
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 328.0
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 36.0,
+   "amount_uah": 6183.88
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 174.0,
+   "amount_uah": 33645.88
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 646.0,
+   "amount_uah": 81954.73
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 74.0,
+   "amount_uah": 10020.48
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 302.0,
+   "amount_uah": 37346.82
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 355.0,
+   "amount_uah": 45882.34
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Закурдаєва",
+   "channel": "HB",
+   "qty_shipped": 206.0,
+   "amount_uah": 26202.17
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Дмитрева",
+   "channel": "HB",
+   "qty_shipped": 61.0,
+   "amount_uah": 8072.62
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 68.0,
+   "amount_uah": 8146.72
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 60.0,
+   "amount_uah": 7153.49
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 232.0,
+   "amount_uah": 29724.81
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 100.0,
+   "amount_uah": 13309.15
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 132.0,
+   "amount_uah": 18348.88
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 210.0,
+   "amount_uah": 27878.01
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 365.0,
+   "amount_uah": 45760.11
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 191.0,
+   "amount_uah": 25342.25
+  },
+  {
+   "date_from": "2026-03-21",
+   "date_to": "2026-03-31",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 179.0,
+   "amount_uah": 21510.04
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 337.0,
+   "amount_uah": 41456.8
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 577.0,
+   "amount_uah": 73686.42
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 138.0,
+   "amount_uah": 19407.02
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 220.0,
+   "amount_uah": 27556.04
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 375.0,
+   "amount_uah": 50553.45
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 62.0,
+   "amount_uah": 9098.7
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 53.0,
+   "amount_uah": 6628.08
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 96.0,
+   "amount_uah": 12560.2
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 488.0,
+   "amount_uah": 62113.59
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Закурдаєва",
+   "channel": "HB",
+   "qty_shipped": 167.0,
+   "amount_uah": 21440.38
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 462.0,
+   "amount_uah": 57829.48
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 450.0,
+   "amount_uah": 56199.84
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 80.0,
+   "amount_uah": 10381.33
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 6.0,
+   "amount_uah": 711.33
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 38.0,
+   "amount_uah": 4765.26
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 16.0,
+   "amount_uah": 2160.01
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 16.0,
+   "amount_uah": 2016.57
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 44.0,
+   "amount_uah": 5759.86
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 21.0,
+   "amount_uah": 2886.47
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 385.0,
+   "amount_uah": 50271.49
+  },
+  {
+   "date_from": "2026-04-01",
+   "date_to": "2026-04-10",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 507.0,
+   "amount_uah": 64130.75
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 219.0,
+   "amount_uah": 19777.08
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 49.0,
+   "amount_uah": 4528.26
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 101.0,
+   "amount_uah": 10102.93
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 2.0,
+   "amount_uah": 149.19
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 125.0,
+   "amount_uah": 11595.83
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 542.0,
+   "amount_uah": 48298.99
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 360.0,
+   "amount_uah": 35605.82
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 30.0,
+   "amount_uah": 2169.62
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 59.0,
+   "amount_uah": 5610.76
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 169.0,
+   "amount_uah": 16416.55
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 51.0,
+   "amount_uah": 4999.25
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 272.0,
+   "amount_uah": 26985.01
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 473.0,
+   "amount_uah": 43429.34
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 39.0,
+   "amount_uah": 3860.28
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 219.0,
+   "amount_uah": 26913.08
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 49.0,
+   "amount_uah": 6058.26
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 101.0,
+   "amount_uah": 14013.93
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 2.0,
+   "amount_uah": 184.19
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 125.0,
+   "amount_uah": 16297.33
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 542.0,
+   "amount_uah": 65456.49
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 360.0,
+   "amount_uah": 49358.82
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 30.0,
+   "amount_uah": 3097.12
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 59.0,
+   "amount_uah": 7493.26
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 169.0,
+   "amount_uah": 21101.3
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 51.0,
+   "amount_uah": 6949.25
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 272.0,
+   "amount_uah": 37127.01
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 473.0,
+   "amount_uah": 59705.34
+  },
+  {
+   "date_from": "2026-04-10",
+   "date_to": "2026-04-20",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 39.0,
+   "amount_uah": 5472.78
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 41.0,
+   "amount_uah": 5904.52
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 312.7
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 98.0,
+   "amount_uah": 15553.49
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 98.0,
+   "amount_uah": 13525.33
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 75.0,
+   "amount_uah": 10000.57
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 98.0,
+   "amount_uah": 12920.43
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 611.0,
+   "amount_uah": 84246.04
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 195.0,
+   "amount_uah": 26040.64
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 49.0,
+   "amount_uah": 6903.76
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 2.0,
+   "amount_uah": 348.75
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 22.0,
+   "amount_uah": 3265.62
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 454.0,
+   "amount_uah": 64258.3
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 100.0,
+   "amount_uah": 15086.86
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 205.0,
+   "amount_uah": 29523.37
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 28.0,
+   "amount_uah": 3185.07
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 23.0,
+   "amount_uah": 3235.03
+  },
+  {
+   "date_from": "2026-04-21",
+   "date_to": "2026-04-30",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 4.0,
+   "amount_uah": 876.75
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 3.0,
+   "amount_uah": 343.88
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 219.0,
+   "amount_uah": 21841.59
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 68.0,
+   "amount_uah": 8284.02
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 308.0,
+   "amount_uah": 43896.54
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 3.0,
+   "amount_uah": 548.07
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 395.0,
+   "amount_uah": 49100.13
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 77.0,
+   "amount_uah": 11142.31
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 121.0
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Закурдаєва",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 161.69
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 3.0,
+   "amount_uah": 339.75
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 18.0,
+   "amount_uah": 1817.35
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 24.0,
+   "amount_uah": 3225.16
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 363.0,
+   "amount_uah": 49906.58
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 201.0,
+   "amount_uah": 31162.8
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 6.0,
+   "amount_uah": 1029.0
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 318.0,
+   "amount_uah": 33080.84
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 265.0,
+   "amount_uah": 27604.94
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 192.0,
+   "amount_uah": 19520.15
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 74.0,
+   "amount_uah": 8170.35
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 10.0,
+   "amount_uah": 1546.96
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 391.0,
+   "amount_uah": 39346.3
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 39.0,
+   "amount_uah": 4502.08
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 2.0,
+   "amount_uah": 348.25
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 337.0,
+   "amount_uah": 34863.59
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 301.0,
+   "amount_uah": 31228.94
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 26.0,
+   "amount_uah": 2701.77
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Кралька",
+   "channel": "GB",
+   "qty_shipped": 24.0,
+   "amount_uah": 2943.74
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 10.0,
+   "amount_uah": 1661.74
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 6.0,
+   "amount_uah": 1980.75
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 225.0,
+   "amount_uah": 23046.0
+  },
+  {
+   "date_from": "2026-05-11",
+   "date_to": "2026-05-20",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 86.0,
+   "amount_uah": 9089.14
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 142.0,
+   "amount_uah": 15569.32
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 4.0,
+   "amount_uah": 560.68
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 116.0,
+   "amount_uah": 12861.55
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 112.63
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 31.0,
+   "amount_uah": 3633.39
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 129.25
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 356.0,
+   "amount_uah": 37899.87
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 155.0,
+   "amount_uah": 16448.77
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 338.0,
+   "amount_uah": 35557.9
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 60.0,
+   "amount_uah": 6221.07
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 8.0,
+   "amount_uah": 881.89
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 21.0,
+   "amount_uah": 2325.75
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 53.0,
+   "amount_uah": 4931.19
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 366.0,
+   "amount_uah": 36413.86
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 190.0,
+   "amount_uah": 19252.02
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 1.0,
+   "amount_uah": 147.15
+  },
+  {
+   "date_from": "2026-05-21",
+   "date_to": "2026-05-31",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 325.0,
+   "amount_uah": 33900.68
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 172.0,
+   "amount_uah": 18952.15
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 30.0,
+   "amount_uah": 3412.89
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 337.0,
+   "amount_uah": 35796.19
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 59.0,
+   "amount_uah": 13229.46
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 185.0
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 42.0,
+   "amount_uah": 4590.97
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 408.0,
+   "amount_uah": 44355.52
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 13.0,
+   "amount_uah": 1297.4
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 186.0,
+   "amount_uah": 19476.47
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 283.0,
+   "amount_uah": 28878.9
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Пальчун Елла",
+   "channel": "GB",
+   "qty_shipped": 5.0,
+   "amount_uah": 507.84
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 13.0,
+   "amount_uah": 1599.74
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 72.0,
+   "amount_uah": 7235.12
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 13.0,
+   "amount_uah": 1579.65
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 4.0,
+   "amount_uah": 325.5
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 329.0,
+   "amount_uah": 34159.39
+  },
+  {
+   "date_from": "2026-06-01",
+   "date_to": "2026-06-10",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 61.0,
+   "amount_uah": 7108.22
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 329.0,
+   "amount_uah": 36031.85
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 158.0,
+   "amount_uah": 17862.49
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 34.0,
+   "amount_uah": 3537.71
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 370.0,
+   "amount_uah": 40675.21
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 88.0,
+   "amount_uah": 10234.52
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 11.0,
+   "amount_uah": 1229.05
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 93.0,
+   "amount_uah": 10022.48
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 144.0,
+   "amount_uah": 15213.08
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 39.0,
+   "amount_uah": 3980.12
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 22.0,
+   "amount_uah": 2404.14
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 41.0,
+   "amount_uah": 4099.22
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 93.0,
+   "amount_uah": 9204.08
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 294.0,
+   "amount_uah": 30553.47
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 10.0,
+   "amount_uah": 1138.25
+  },
+  {
+   "date_from": "2026-06-10",
+   "date_to": "2026-06-20",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 235.0,
+   "amount_uah": 23939.78
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 53.0,
+   "amount_uah": 5702.36
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 60.0,
+   "amount_uah": 6272.62
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 2.0,
+   "amount_uah": 254.45
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 16.0,
+   "amount_uah": 1859.45
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 88.0,
+   "amount_uah": 9749.3
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 398.0,
+   "amount_uah": 42989.25
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 73.0,
+   "amount_uah": 8033.4
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 291.0,
+   "amount_uah": 31923.67
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Дмитрева",
+   "channel": "HB",
+   "qty_shipped": 8.0,
+   "amount_uah": 940.19
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 145.0,
+   "amount_uah": 14243.8
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 25.0,
+   "amount_uah": 2513.36
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 361.0,
+   "amount_uah": 41151.3
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 21.0,
+   "amount_uah": 2404.16
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 21.0,
+   "amount_uah": 2246.32
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 286.0,
+   "amount_uah": 29815.62
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Прокофʼєв",
+   "channel": "GB",
+   "qty_shipped": 14.0,
+   "amount_uah": 1316.27
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 64.0,
+   "amount_uah": 6255.03
+  },
+  {
+   "date_from": "2026-06-20",
+   "date_to": "2026-06-30",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 40.0,
+   "amount_uah": 4254.99
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 224.0,
+   "amount_uah": 24973.58
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 3.0,
+   "amount_uah": 306.0
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 62.0,
+   "amount_uah": 7313.66
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Савченко",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 121.6
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 39.0,
+   "amount_uah": 4153.4
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 410.0,
+   "amount_uah": 45777.71
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 16.0,
+   "amount_uah": 1926.64
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Прокофʼєв",
+   "channel": "HB",
+   "qty_shipped": 47.0,
+   "amount_uah": 5719.66
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Дмитрева",
+   "channel": "HB",
+   "qty_shipped": 104.0,
+   "amount_uah": 11945.2
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 7.0,
+   "amount_uah": 704.47
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 28.0,
+   "amount_uah": 3367.59
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 316.0,
+   "amount_uah": 38408.07
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 20.0,
+   "amount_uah": 2320.61
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 16.0,
+   "amount_uah": 1703.7
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 12.0,
+   "amount_uah": 1377.45
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 401.0,
+   "amount_uah": 48593.26
+  },
+  {
+   "date_from": "2026-07-01",
+   "date_to": "2026-07-10",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 40.0,
+   "amount_uah": 4254.99
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 258.0,
+   "amount_uah": 29120.97
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 216.0,
+   "amount_uah": 23752.14
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 3.0,
+   "amount_uah": 331.1
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 385.0,
+   "amount_uah": 43450.15
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 101.0,
+   "amount_uah": 12497.94
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Прокофʼєв",
+   "channel": "HB",
+   "qty_shipped": 4.0,
+   "amount_uah": 457.5
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 2.0,
+   "amount_uah": 163.01
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 33.0,
+   "amount_uah": 3594.77
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Дмитрева",
+   "channel": "HB",
+   "qty_shipped": 7.0,
+   "amount_uah": 842.91
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 333.0,
+   "amount_uah": 38342.16
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 428.0,
+   "amount_uah": 51451.68
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 246.0,
+   "amount_uah": 28841.56
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 24.0,
+   "amount_uah": 2892.08
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 26.0,
+   "amount_uah": 2599.47
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 2.0,
+   "amount_uah": 381.5
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 33.0,
+   "amount_uah": 3901.53
+  },
+  {
+   "date_from": "2026-07-11",
+   "date_to": "2026-07-20",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 1.0,
+   "amount_uah": 121.5
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 171.0,
+   "amount_uah": 19174.04
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 6.0,
+   "amount_uah": 720.79
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 2.0,
+   "amount_uah": 205.885
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 27.0,
+   "amount_uah": 3184.73
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 112.0,
+   "amount_uah": 13446.49
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Прокофʼєв",
+   "channel": "HB",
+   "qty_shipped": 88.0,
+   "amount_uah": 9632.11
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 410.0,
+   "amount_uah": 45880.17
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 412.0,
+   "amount_uah": 47169.21
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 149.0,
+   "amount_uah": 19059.01
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 36.0,
+   "amount_uah": 4456.31
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 4.0,
+   "amount_uah": 525.77
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 33.0,
+   "amount_uah": 3934.3
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 404.0,
+   "amount_uah": 47940.55
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 15.0,
+   "amount_uah": 1420.93
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 12.0,
+   "amount_uah": 1351.57
+  },
+  {
+   "date_from": "2026-07-21",
+   "date_to": "2026-07-31",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 462.0,
+   "amount_uah": 56411.65
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 1.0,
+   "amount_uah": 198.1
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 223.0,
+   "amount_uah": 26238.82
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 403.0,
+   "amount_uah": 47250.6
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 83.0,
+   "amount_uah": 10006.32
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 56.0,
+   "amount_uah": 6302.74
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 20.0,
+   "amount_uah": 2351.88
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 61.0,
+   "amount_uah": 7624.56
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 2.0,
+   "amount_uah": 239.51
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 304.0,
+   "amount_uah": 38097.85
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 29.0,
+   "amount_uah": 3644.31
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 71.0,
+   "amount_uah": 8777.07
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 393.0,
+   "amount_uah": 49529.36
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 66.0,
+   "amount_uah": 8119.92
+  },
+  {
+   "date_from": "2026-08-01",
+   "date_to": "2026-08-10",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 16.0,
+   "amount_uah": 1786.73
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 263.0,
+   "amount_uah": 30993.38
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 209.0,
+   "amount_uah": 24964.69
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Киндюшенко",
+   "channel": "HB",
+   "qty_shipped": 40.0,
+   "amount_uah": 4696.65
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 439.0,
+   "amount_uah": 53010.74
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 98.0,
+   "amount_uah": 11934.29
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Прокофʼєв",
+   "channel": "HB",
+   "qty_shipped": 8.0,
+   "amount_uah": 958.64
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Бажан",
+   "channel": "HB",
+   "qty_shipped": 2.0,
+   "amount_uah": 325.85
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 0.0,
+   "amount_uah": 28502.56
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 325.0,
+   "amount_uah": 40554.42
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 104.0,
+   "amount_uah": 12958.15
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 23.0,
+   "amount_uah": 2708.83
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 374.0,
+   "amount_uah": 46728.67
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 29.0,
+   "amount_uah": 3756.69
+  },
+  {
+   "date_from": "2026-08-11",
+   "date_to": "2026-08-20",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 1.0,
+   "amount_uah": 145.82
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Бабенко",
+   "channel": "HB",
+   "qty_shipped": 32.0,
+   "amount_uah": 3873.72
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Варакула ЛГ",
+   "channel": "HB",
+   "qty_shipped": 6.0,
+   "amount_uah": 665.45
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Варакута ЛО",
+   "channel": "HB",
+   "qty_shipped": 13.0,
+   "amount_uah": 1505.87
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Васелец",
+   "channel": "HB",
+   "qty_shipped": 386.0,
+   "amount_uah": 45793.4
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Дмитрева",
+   "channel": "HB",
+   "qty_shipped": 115.0,
+   "amount_uah": 13144.08
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Константинов",
+   "channel": "HB",
+   "qty_shipped": 183.0,
+   "amount_uah": 22378.19
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Лунько",
+   "channel": "HB",
+   "qty_shipped": 143.0,
+   "amount_uah": 40272.92
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Овсюченко",
+   "channel": "HB",
+   "qty_shipped": 4.0,
+   "amount_uah": 335.75
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Прокофʼєв",
+   "channel": "HB",
+   "qty_shipped": 297.0,
+   "amount_uah": 34979.65
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Шаповалова В",
+   "channel": "HB",
+   "qty_shipped": 436.0,
+   "amount_uah": 52617.26
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Варакута ГГ",
+   "channel": "GB",
+   "qty_shipped": 12.0,
+   "amount_uah": 1517.19
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Великий",
+   "channel": "GB",
+   "qty_shipped": 2.0,
+   "amount_uah": 253.24
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Демидов",
+   "channel": "GB",
+   "qty_shipped": 350.0,
+   "amount_uah": 44304.68
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Зайченко",
+   "channel": "GB",
+   "qty_shipped": 316.0,
+   "amount_uah": 38933.81
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Куца",
+   "channel": "GB",
+   "qty_shipped": 409.0,
+   "amount_uah": 51448.34
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Пальчун Єгор",
+   "channel": "GB",
+   "qty_shipped": 50.0,
+   "amount_uah": 6695.21
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Романенко",
+   "channel": "GB",
+   "qty_shipped": 47.0,
+   "amount_uah": 5738.28
+  },
+  {
+   "date_from": "2026-08-21",
+   "date_to": "2026-08-31",
+   "manager": "Щербина",
+   "channel": "GB",
+   "qty_shipped": 45.0,
+   "amount_uah": 5918.23
+  }
+ ],
+ "aggregates": [
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "channel": "HB",
+   "qty_returned": 859.0,
+   "qty_packaging": 15685.0
+  },
+  {
+   "date_from": "2026-05-01",
+   "date_to": "2026-05-10",
+   "channel": "GB",
+   "qty_returned": 840.0,
+   "qty_packaging": 15338.0
+  }
+ ]
+}

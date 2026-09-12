@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
 import type { MonthlySummary, AnnualSummary } from "../types";
+import { Pager, paginate } from "../Pager";
 
 function fmtMonth(m: string) {
   const d = new Date(m);
@@ -15,6 +16,8 @@ export default function Reports() {
   const [monthly, setMonthly] = useState<MonthlySummary[]>([]);
   const [annual, setAnnual] = useState<AnnualSummary[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 20;
 
   useEffect(() => {
     Promise.all([api.get<MonthlySummary[]>("/reports/monthly"), api.get<AnnualSummary[]>("/reports/annual")]).then(
@@ -28,19 +31,20 @@ export default function Reports() {
 
   if (loading) return <p>Завантаження…</p>;
 
-  const rows = tab === "monthly" ? monthly : annual;
+  const rows: (MonthlySummary | AnnualSummary)[] = tab === "monthly" ? monthly : annual;
   const totalSavings = rows.reduce((s, r) => s + Number(r.savings_uah || 0), 0);
   const totalCost = rows.reduce((s, r) => s + Number(r.packaging_cost_uah || 0), 0);
+  const { pageCount, pageItems: pagedRows } = paginate(rows, page, PAGE_SIZE);
 
   return (
     <div>
       <h2>Звіти</h2>
 
       <div className="toolbar">
-        <button className={`btn ${tab === "monthly" ? "" : "secondary"}`} onClick={() => setTab("monthly")}>
+        <button className={`btn ${tab === "monthly" ? "" : "secondary"}`} onClick={() => { setTab("monthly"); setPage(1); }}>
           Місячний
         </button>
-        <button className={`btn ${tab === "annual" ? "" : "secondary"}`} onClick={() => setTab("annual")}>
+        <button className={`btn ${tab === "annual" ? "" : "secondary"}`} onClick={() => { setTab("annual"); setPage(1); }}>
           Річний
         </button>
       </div>
@@ -76,7 +80,7 @@ export default function Reports() {
             </thead>
             <tbody>
               {tab === "monthly"
-                ? monthly.map((r, i) => (
+                ? (pagedRows as MonthlySummary[]).map((r, i) => (
                     <tr key={i}>
                       <td>{fmtMonth(r.month)}</td>
                       <td>{r.channel}</td>
@@ -89,7 +93,7 @@ export default function Reports() {
                       <td className={Number(r.savings_uah) >= 0 ? "positive" : "negative"}>{r.savings_uah}</td>
                     </tr>
                   ))
-                : annual.map((r, i) => (
+                : (pagedRows as AnnualSummary[]).map((r, i) => (
                     <tr key={i}>
                       <td>{fmtYear(r.year)}</td>
                       <td>{r.channel}</td>
@@ -112,6 +116,7 @@ export default function Reports() {
             </tbody>
           </table>
         </div>
+        <Pager page={page} pageCount={pageCount} setPage={setPage} />
       </div>
     </div>
   );

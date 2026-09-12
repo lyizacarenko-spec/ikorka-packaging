@@ -3,6 +3,7 @@ import { api } from "../api";
 import type { StockBalance, StockMovement } from "../types";
 import { useReferenceData } from "../useReferenceData";
 import { useAuth } from "../AuthContext";
+import { Pager, paginate } from "../Pager";
 
 export default function Stock() {
   const { boxTypes, materials, loading: refLoading } = useReferenceData();
@@ -12,6 +13,8 @@ export default function Stock() {
   const [balance, setBalance] = useState<StockBalance[]>([]);
   const [movements, setMovements] = useState<StockMovement[]>([]);
   const [busy, setBusy] = useState(false);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 30;
   const [form, setForm] = useState({
     item_type: "box" as "box" | "material",
     box_type_id: "",
@@ -66,6 +69,8 @@ export default function Stock() {
   }
 
   if (refLoading) return <p>Завантаження…</p>;
+
+  const { pageCount, pageItems: pagedMovements } = paginate(movements, page, PAGE_SIZE);
 
   return (
     <div>
@@ -140,12 +145,12 @@ export default function Stock() {
       )}
 
       <div className="card">
-        <h3>Історія рухів</h3>
+        <h3>Історія рухів ({movements.length})</h3>
         <div className="table-wrap">
           <table>
             <thead><tr><th>Дата</th><th>Тип</th><th>Позиція</th><th>Операція</th><th>К-сть</th><th>Залишок після</th><th>Примітка</th></tr></thead>
             <tbody>
-              {movements.map((m) => (
+              {pagedMovements.map((m) => (
                 <tr key={m.id}>
                   <td>{m.movement_date.slice(0, 10)}</td>
                   <td>{m.item_type === "box" ? "Коробка" : "Матеріал"}</td>
@@ -160,6 +165,7 @@ export default function Stock() {
             </tbody>
           </table>
         </div>
+        <Pager page={page} pageCount={pageCount} setPage={setPage} />
       </div>
     </div>
   );
