@@ -98,7 +98,21 @@ export default function DataEntry() {
               </label>
               <label>
                 Менеджер
-                <select className="input" required value={form.manager_id} onChange={(e) => update("manager_id", e.target.value)}>
+                <select
+                  className="input"
+                  required
+                  value={form.manager_id}
+                  onChange={(e) => {
+                    const managerId = e.target.value;
+                    const mgr = managers.find((m) => String(m.id) === managerId);
+                    setForm((f) => ({
+                      ...f,
+                      manager_id: managerId,
+                      // якщо у менеджера є канал за замовчуванням (ХБ/ГБ) — підставляємо сам, Наташі не треба знати, хто до якого ФОП належить
+                      channel_id: mgr?.default_channel_id ? String(mgr.default_channel_id) : f.channel_id,
+                    }));
+                  }}
+                >
                   <option value="">—</option>
                   {managers.map((m) => (
                     <option key={m.id} value={m.id}>

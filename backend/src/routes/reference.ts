@@ -11,19 +11,25 @@ router.get("/managers", async (_req, res) => {
   res.json(rows);
 });
 router.post("/managers", requireEditor, async (req, res) => {
-  const { name, is_active = true } = req.body;
+  const { name, is_active = true, default_channel_id = null } = req.body;
   if (!name) return res.status(400).json({ error: "name обов'язкове" });
   const { rows } = await pool.query(
-    "INSERT INTO managers (name, is_active) VALUES ($1,$2) RETURNING *",
-    [name, is_active]
+    "INSERT INTO managers (name, is_active, default_channel_id) VALUES ($1,$2,$3) RETURNING *",
+    [name, is_active, default_channel_id]
   );
   res.status(201).json(rows[0]);
 });
 router.put("/managers/:id", requireEditor, async (req, res) => {
   const { name, is_active } = req.body;
+  // default_channel_id: якщо поле передано в тілі запиту (навіть null — щоб очистити), використовуємо його; інакше лишаємо як є.
+  const channelProvided = "default_channel_id" in req.body;
   const { rows } = await pool.query(
-    "UPDATE managers SET name = COALESCE($1, name), is_active = COALESCE($2, is_active) WHERE id = $3 RETURNING *",
-    [name, is_active, req.params.id]
+    `UPDATE managers SET
+        name = COALESCE($1, name),
+        is_active = COALESCE($2, is_active),
+        default_channel_id = CASE WHEN $3 THEN $4::int ELSE default_channel_id END
+     WHERE id = $5 RETURNING *`,
+    [name, is_active, channelProvided, req.body.default_channel_id ?? null, req.params.id]
   );
   if (!rows.length) return res.status(404).json({ error: "Не знайдено" });
   res.json(rows[0]);

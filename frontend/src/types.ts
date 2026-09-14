@@ -2,6 +2,7 @@ export interface Manager {
   id: number;
   name: string;
   is_active: boolean;
+  default_channel_id: number | null;
 }
 export interface SalesChannel {
   id: number;

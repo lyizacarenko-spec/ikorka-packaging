@@ -5,7 +5,7 @@ import { useAuth } from "../AuthContext";
 import { Pager, paginate } from "../Pager";
 
 export default function Reference() {
-  const { managers, boxTypes, materials, productLines, periods, loading, reload } = useReferenceData();
+  const { managers, channels, boxTypes, materials, productLines, periods, loading, reload } = useReferenceData();
   const { user } = useAuth();
   const canEdit = user?.role === "owner" || user?.role === "editor";
 
@@ -29,6 +29,16 @@ export default function Reference() {
     try {
       await api.post("/managers", { name: newManager.trim() });
       setNewManager("");
+      await reload();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function setManagerChannel(managerId: number, channelId: string) {
+    setBusy(true);
+    try {
+      await api.put(`/managers/${managerId}`, { default_channel_id: channelId ? Number(channelId) : null });
       await reload();
     } finally {
       setBusy(false);
@@ -143,12 +153,35 @@ export default function Reference() {
             <button className="btn" disabled={busy}>Додати</button>
           </form>
         )}
+        <p style={{ fontSize: 13, color: "var(--text-muted)" }}>
+          Канал за замовчуванням — щоб при вводі даних сегмент (ХБ/ГБ) підставлявся сам, коли обираєш менеджера.
+        </p>
         <div className="table-wrap">
           <table>
-            <thead><tr><th>Ім'я</th><th>Активний</th></tr></thead>
+            <thead><tr><th>Ім'я</th><th>Активний</th><th>Канал за замовч.</th></tr></thead>
             <tbody>
               {managersPaged.pageItems.map((m) => (
-                <tr key={m.id}><td>{m.name}</td><td>{m.is_active ? "так" : "ні"}</td></tr>
+                <tr key={m.id}>
+                  <td>{m.name}</td>
+                  <td>{m.is_active ? "так" : "ні"}</td>
+                  <td>
+                    {canEdit ? (
+                      <select
+                        className="input"
+                        value={m.default_channel_id ?? ""}
+                        disabled={busy}
+                        onChange={(e) => setManagerChannel(m.id, e.target.value)}
+                      >
+                        <option value="">—</option>
+                        {channels.map((c) => (
+                          <option key={c.id} value={c.id}>{c.code}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      channels.find((c) => c.id === m.default_channel_id)?.code ?? "—"
+                    )}
+                  </td>
+                </tr>
               ))}
             </tbody>
           </table>

@@ -17,17 +17,19 @@
 -- СПРАВОЧНИКИ
 -- ------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS managers (
-    id          SERIAL PRIMARY KEY,
-    name        TEXT NOT NULL UNIQUE,
-    is_active   BOOLEAN NOT NULL DEFAULT TRUE
-);
-
 CREATE TABLE IF NOT EXISTS sales_channels (
     id          SERIAL PRIMARY KEY,
     code        TEXT NOT NULL UNIQUE,      -- 'HB', 'GB'
     name        TEXT NOT NULL              -- 'ХБ + відмови', 'ГБ'
 );
+
+CREATE TABLE IF NOT EXISTS managers (
+    id                 SERIAL PRIMARY KEY,
+    name               TEXT NOT NULL UNIQUE,
+    is_active          BOOLEAN NOT NULL DEFAULT TRUE,
+    default_channel_id INT REFERENCES sales_channels(id)  -- який ФОП/канал за замовчуванням у цього менеджера (щоб не вибирати вручну при вводі)
+);
+ALTER TABLE managers ADD COLUMN IF NOT EXISTS default_channel_id INT REFERENCES sales_channels(id);
 
 CREATE TABLE IF NOT EXISTS product_lines (
     id          SERIAL PRIMARY KEY,
