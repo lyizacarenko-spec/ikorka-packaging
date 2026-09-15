@@ -113,4 +113,22 @@ router.post("/stock/movements", requireEditor, async (req, res) => {
   }
 });
 
+// Видалити рух — дозволено лише останній по цій позиції (інакше зіб'ється залишок)
+router.delete("/stock/movements/:id", requireEditor, async (req, res) => {
+  const { rows } = await pool.query("SELECT * FROM stock_movements WHERE id = $1", [req.params.id]);
+  if (!rows.length) return res.status(404).json({ error: "Не знайдено" });
+  const m = rows[0];
+  const { rows: latestRows } = await pool.query(
+    `SELECT id FROM stock_movements
+     WHERE item_type = $1 AND COALESCE(box_type_id,-1) = COALESCE($2,-1) AND COALESCE(material_id,-1) = COALESCE($3,-1)
+     ORDER BY movement_date DESC, id DESC LIMIT 1`,
+    [m.item_type, m.box_type_id, m.material_id]
+  );
+  if (!latestRows.length || latestRows[0].id !== m.id) {
+    return res.status(400).json({ error: "Можна видалити лише останній рух по цій позиції (інакше зіб'ється залишок)" });
+  }
+  await pool.query("DELETE FROM stock_movements WHERE id = $1", [req.params.id]);
+  res.status(204).end();
+});
+
 export default router;
