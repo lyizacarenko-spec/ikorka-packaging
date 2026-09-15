@@ -146,15 +146,15 @@ export default function Reference() {
       </div>
 
       <div className="card">
-        <h3>Менеджери</h3>
+        <h3>ФОП</h3>
         {canEdit && (
           <form onSubmit={addManager} className="toolbar">
-            <input className="input" placeholder="Ім'я менеджера" value={newManager} onChange={(e) => setNewManager(e.target.value)} />
+            <input className="input" placeholder="Ім'я ФОП" value={newManager} onChange={(e) => setNewManager(e.target.value)} />
             <button className="btn" disabled={busy}>Додати</button>
           </form>
         )}
         <p style={{ fontSize: 13, color: "var(--text-muted)" }}>
-          Канал за замовчуванням — щоб при вводі даних сегмент (ХБ/ГБ) підставлявся сам, коли обираєш менеджера.
+          Канал за замовчуванням — щоб при вводі даних сегмент (ХБ/ГБ) підставлявся сам, коли обираєш ФОП.
         </p>
         <div className="table-wrap">
           <table>

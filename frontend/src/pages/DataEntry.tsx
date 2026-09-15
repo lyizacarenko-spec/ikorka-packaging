@@ -97,7 +97,7 @@ export default function DataEntry() {
                 </select>
               </label>
               <label>
-                Менеджер
+                ФОП
                 <select
                   className="input"
                   required
@@ -205,7 +205,7 @@ export default function DataEntry() {
             <thead>
               <tr>
                 <th>Період</th>
-                <th>Менеджер</th>
+                <th>ФОП</th>
                 <th>Сегмент</th>
                 <th>Лінія</th>
                 <th>Відправлено</th>
