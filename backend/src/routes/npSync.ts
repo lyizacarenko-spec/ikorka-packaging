@@ -90,8 +90,21 @@ async function runNpSync(req: express.Request, res: express.Response) {
   const dateFrom = toNpDate(period.date_from);
   const dateTo = toNpDate(period.date_to);
 
+  // Беремо до уваги ЛИШЕ типи коробок, у яких є актуальна ціна на дату періоду.
+  // Без цього автосинк міг випадково потрапити на непроцінені довідникові
+  // записи (напр. "Б/у коробка 1 кг" — той самий ваговий діапазон, що й
+  // звичайна "Коробка 1 кг", але без ціни) і порахувати собівартість як 0.
+  // Автосинк взагалі не повинен обирати "б/у" типи — це визначається вручну
+  // (поле "з них б/у" на записі), НП не знає, чи коробка була вже використана.
   const { rows: boxTypes } = await pool.query(
-    "SELECT id, weight_kg FROM box_types WHERE weight_kg IS NOT NULL ORDER BY weight_kg ASC"
+    `SELECT bt.id, bt.weight_kg
+     FROM box_types bt
+     JOIN LATERAL (
+       SELECT price FROM box_prices WHERE box_type_id = bt.id AND valid_from <= $1 ORDER BY valid_from DESC LIMIT 1
+     ) bp ON TRUE
+     WHERE bt.weight_kg IS NOT NULL
+     ORDER BY bt.weight_kg ASC`,
+    [period.date_to]
   );
   function boxTypeForWeight(weight: number): number | null {
     for (const bt of boxTypes) {
