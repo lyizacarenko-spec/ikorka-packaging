@@ -29,6 +29,7 @@ export default function DataEntry() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [page, setPage] = useState(1);
+  const [editingId, setEditingId] = useState<number | null>(null);
   const [syncing, setSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const PAGE_SIZE = 30;
@@ -73,6 +74,31 @@ export default function DataEntry() {
     }
   }
 
+  function startEdit(d: Delivery) {
+    setEditingId(d.id);
+    setMessage(null);
+    setForm({
+      period_id: String(d.period_id),
+      manager_id: String(d.manager_id),
+      channel_id: String(d.channel_id),
+      product_line_id: String(d.product_line_id),
+      qty_shipped: String(d.qty_shipped ?? 0),
+      amount_uah: String(d.amount_uah ?? 0),
+      qty_returned: String(d.qty_returned ?? 0),
+      qty_damaged: String(d.qty_damaged ?? 0),
+      qty_packaging: String(d.qty_packaging ?? 0),
+      box_type_id: d.box_type_id ? String(d.box_type_id) : "",
+      qty_packaging_free: String(d.qty_packaging_free ?? 0),
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setForm(emptyForm);
+    setMessage(null);
+  }
+
   async function deleteDelivery(id: number) {
     if (!window.confirm("Видалити цей запис? Дію не можна скасувати.")) return;
     try {
@@ -101,7 +127,8 @@ export default function DataEntry() {
         box_type_id: form.box_type_id ? Number(form.box_type_id) : null,
         qty_packaging_free: Number(form.qty_packaging_free || 0),
       });
-      setMessage("Збережено.");
+      setMessage(editingId ? "Зміни збережено." : "Збережено.");
+      setEditingId(null);
       setForm((f) => ({ ...emptyForm, period_id: f.period_id, channel_id: f.channel_id, box_type_id: f.box_type_id }));
       await loadDeliveries();
     } catch (err) {
@@ -119,7 +146,12 @@ export default function DataEntry() {
 
       {canEdit && (
         <div className="card">
-          <h3>Новий запис (за декаду)</h3>
+          <h3>{editingId ? "Редагування запису" : "Новий запис (за декаду)"}</h3>
+          {editingId && (
+            <p style={{ fontSize: 13, color: "var(--text-muted)" }}>
+              Редагуєте вже існуючий запис — поля нижче підвантажені з нього. Змініть потрібне (наприклад, «з них б/у») і натисніть «Зберегти зміни».
+            </p>
+          )}
           <form onSubmit={submit}>
             <div className="form-grid">
               <label>
@@ -219,8 +251,13 @@ export default function DataEntry() {
               </label>
             </div>
             <button className="btn" type="submit" disabled={saving}>
-              {saving ? "Збереження…" : "Зберегти"}
+              {saving ? "Збереження…" : editingId ? "Зберегти зміни" : "Зберегти"}
             </button>
+            {editingId && (
+              <button type="button" className="btn secondary" style={{ marginLeft: 8 }} onClick={cancelEdit}>
+                Скасувати
+              </button>
+            )}
             {message && <span style={{ marginLeft: 12, fontSize: 13, color: "var(--text-muted)" }}>{message}</span>}
           </form>
         </div>
@@ -285,11 +322,16 @@ export default function DataEntry() {
                   <td className={d.savings_uah && Number(d.savings_uah) >= 0 ? "positive" : "negative"}>
                     {d.savings_uah ?? "—"}
                   </td>
-                  <td>
+                  <td style={{ whiteSpace: "nowrap" }}>
                     {canEdit && (
-                      <button type="button" className="btn secondary" onClick={() => deleteDelivery(d.id)}>
-                        Видалити
-                      </button>
+                      <>
+                        <button type="button" className="btn secondary" onClick={() => startEdit(d)}>
+                          Редагувати
+                        </button>{" "}
+                        <button type="button" className="btn secondary" onClick={() => deleteDelivery(d.id)}>
+                          Видалити
+                        </button>
+                      </>
                     )}
                   </td>
                 </tr>
