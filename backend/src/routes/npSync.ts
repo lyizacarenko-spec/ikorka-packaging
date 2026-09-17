@@ -57,7 +57,11 @@ async function getAllDocuments(apiKey: string, dateFrom: string, dateTo: string)
   return all;
 }
 
-// Розсилка по кількох ФОП підряд легко впирається в ліміт НП — невеликі паузи між ними
+// Кожен ФОП має свій окремий ключ НП, тож паузи потрібні лише всередині
+// сторінкування одного ключа (ліміт НП per-ключ) — між різними ФОП можна
+// синхронізувати паралельно, інакше при 5-10+ ФОП запит не вкладається в час
+// і фронтенд отримує "Failed to fetch" (з'єднання обривається раніше, ніж
+// бекенд встигає все обробити).
 router.post("/np-sync", async (req, res) => {
   const { period_id } = req.body;
   if (!period_id) return res.status(400).json({ error: "period_id обов'язковий" });
@@ -92,60 +96,66 @@ router.post("/np-sync", async (req, res) => {
     return res.json({ ...result, message: "Жоден ФОП не має підключеного ключа Нової Пошти." });
   }
 
-  let first = true;
-  for (const m of managers) {
-    if (!first) await sleep(1500);
-    first = false;
+  async function syncOneManager(m: { id: number; name: string; np_api_key: string }) {
+    const docs = await getAllDocuments(m.np_api_key, dateFrom, dateTo);
+    if (!docs.length) {
+      result.skipped.push(`${m.name} (немає відправлень за період)`);
+      return;
+    }
+
+    const byBox: Record<number, number> = {};
+    for (const d of docs) {
+      const btId = boxTypeForWeight(Number(d.Weight));
+      if (btId == null) continue;
+      byBox[btId] = (byBox[btId] || 0) + 1;
+    }
+    const returnedCount = docs.filter((d) => d.StateName === "Відмова від отримання").length;
+
+    const client = await pool.connect();
     try {
-      const docs = await getAllDocuments(m.np_api_key, dateFrom, dateTo);
-      if (!docs.length) {
-        result.skipped.push(`${m.name} (немає відправлень за період)`);
-        continue;
+      await client.query("BEGIN");
+      for (const [boxTypeId, qty] of Object.entries(byBox)) {
+        // eslint-disable-next-line no-await-in-loop
+        await client.query(
+          `INSERT INTO delivery_box_usage (period_id, manager_id, box_type_id, qty, synced_at)
+           VALUES ($1,$2,$3,$4, now())
+           ON CONFLICT (period_id, manager_id, box_type_id) DO UPDATE SET qty = EXCLUDED.qty, synced_at = now()`,
+          [period_id, m.id, Number(boxTypeId), qty]
+        );
       }
-
-      const byBox: Record<number, number> = {};
-      for (const d of docs) {
-        const btId = boxTypeForWeight(Number(d.Weight));
-        if (btId == null) continue;
-        byBox[btId] = (byBox[btId] || 0) + 1;
+      // Оновлюємо сам запис доставки (Упаковка / Тип коробки / Повернень) — щоб таблиця
+      // "Записи" теж показувала осмислені числа. Пишемо ТІЛЬКИ в один (найперший) запис
+      // цього ФОП за період, бо саме на нього орієнтується v_delivery_cost при розбивці
+      // по коробках з delivery_box_usage — якщо писати в усі рядки (напр. і ХБ, і ГБ),
+      // собівартість задвоїться.
+      const dominant = Object.entries(byBox).sort((a, b) => b[1] - a[1])[0];
+      const totalQty = docs.length;
+      if (dominant) {
+        await client.query(
+          `UPDATE deliveries SET qty_packaging = $1, box_type_id = $2, qty_returned = $3, updated_at = now()
+           WHERE id = (SELECT MIN(id) FROM deliveries WHERE period_id = $4 AND manager_id = $5)`,
+          [totalQty, Number(dominant[0]), returnedCount, period_id, m.id]
+        );
       }
-
-      const client = await pool.connect();
-      try {
-        await client.query("BEGIN");
-        for (const [boxTypeId, qty] of Object.entries(byBox)) {
-          // eslint-disable-next-line no-await-in-loop
-          await client.query(
-            `INSERT INTO delivery_box_usage (period_id, manager_id, box_type_id, qty, synced_at)
-             VALUES ($1,$2,$3,$4, now())
-             ON CONFLICT (period_id, manager_id, box_type_id) DO UPDATE SET qty = EXCLUDED.qty, synced_at = now()`,
-            [period_id, m.id, Number(boxTypeId), qty]
-          );
-        }
-        // Оновлюємо і сам запис доставки (Упаковка / Тип коробки) — щоб таблиця "Записи" теж
-        // показувала осмислені числа: разом і найходовіший тип коробки цього ФОП за декаду.
-        const dominant = Object.entries(byBox).sort((a, b) => b[1] - a[1])[0];
-        const totalQty = docs.length;
-        if (dominant) {
-          await client.query(
-            `UPDATE deliveries SET qty_packaging = $1, box_type_id = $2, updated_at = now()
-             WHERE period_id = $3 AND manager_id = $4`,
-            [totalQty, Number(dominant[0]), period_id, m.id]
-          );
-        }
-        await client.query("COMMIT");
-      } catch (err) {
-        await client.query("ROLLBACK");
-        throw err;
-      } finally {
-        client.release();
-      }
-
-      result.synced.push(`${m.name} (${docs.length} відправлень)`);
+      await client.query("COMMIT");
     } catch (err) {
+      await client.query("ROLLBACK");
+      throw err;
+    } finally {
+      client.release();
+    }
+
+    result.synced.push(`${m.name} (${docs.length} відправлень, повернень: ${returnedCount})`);
+  }
+
+  const outcomes = await Promise.allSettled(managers.map((m) => syncOneManager(m)));
+  outcomes.forEach((outcome, i) => {
+    if (outcome.status === "rejected") {
+      const m = managers[i];
+      const err = outcome.reason;
       result.errors.push({ manager: m.name, error: err instanceof Error ? err.message : String(err) });
     }
-  }
+  });
 
   res.json(result);
 });
