@@ -32,6 +32,12 @@ export default function DataEntry() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [syncing, setSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
+  const [syncResult, setSyncResult] = useState<{
+    message?: string;
+    synced: string[];
+    skipped: string[];
+    errors: { manager: string; error: string }[];
+  } | null>(null);
   const PAGE_SIZE = 30;
 
   async function loadDeliveries() {
@@ -55,17 +61,16 @@ export default function DataEntry() {
     if (!filterPeriod) return;
     setSyncing(true);
     setSyncMessage(null);
+    setSyncResult(null);
     try {
       const result = await api.post<{ synced: string[]; skipped: string[]; errors: { manager: string; error: string }[]; message?: string }>(
         "/np-sync",
         { period_id: Number(filterPeriod) }
       );
-      const parts: string[] = [];
-      if (result.message) parts.push(result.message);
-      if (result.synced.length) parts.push(`Оновлено: ${result.synced.join(", ")}.`);
-      if (result.skipped.length) parts.push(`Пропущено: ${result.skipped.join(", ")}.`);
-      if (result.errors.length) parts.push(`Помилки: ${result.errors.map((e) => `${e.manager} — ${e.error}`).join("; ")}.`);
-      setSyncMessage(parts.join(" ") || "Готово, але змін немає.");
+      setSyncResult(result);
+      if (!result.message && !result.synced.length && !result.skipped.length && !result.errors.length) {
+        setSyncMessage("Готово, але змін немає.");
+      }
       await loadDeliveries();
     } catch (err) {
       setSyncMessage(err instanceof Error ? err.message : "Помилка синхронізації");
@@ -284,6 +289,43 @@ export default function DataEntry() {
           )}
         </div>
         {syncMessage && <p style={{ fontSize: 13, color: "var(--text-muted)" }}>{syncMessage}</p>}
+        {syncResult && (
+          <div style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 8 }}>
+            {syncResult.message && <p>{syncResult.message}</p>}
+            {syncResult.synced.length > 0 && (
+              <>
+                <strong>Оновлено:</strong>
+                <ul style={{ margin: "4px 0 8px", paddingLeft: 20 }}>
+                  {syncResult.synced.map((s, i) => (
+                    <li key={i}>{s}</li>
+                  ))}
+                </ul>
+              </>
+            )}
+            {syncResult.skipped.length > 0 && (
+              <>
+                <strong>Пропущено:</strong>
+                <ul style={{ margin: "4px 0 8px", paddingLeft: 20 }}>
+                  {syncResult.skipped.map((s, i) => (
+                    <li key={i}>{s}</li>
+                  ))}
+                </ul>
+              </>
+            )}
+            {syncResult.errors.length > 0 && (
+              <>
+                <strong style={{ color: "var(--danger, #c0392b)" }}>Помилки:</strong>
+                <ul style={{ margin: "4px 0 8px", paddingLeft: 20 }}>
+                  {syncResult.errors.map((e, i) => (
+                    <li key={i}>
+                      {e.manager} — {e.error}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        )}
         <div className="table-wrap">
           <table>
             <thead>
