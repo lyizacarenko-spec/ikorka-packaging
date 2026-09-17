@@ -10,6 +10,15 @@ import stockRoutes from "./routes/stock";
 import reportsRoutes from "./routes/reports";
 import npSyncRoutes from "./routes/npSync";
 
+// Захист: якщо десь у коді (в будь-якому роуті) станеться необроблена помилка
+// в async-функції, Node за замовчуванням валить ввесь процес — і Railway
+// перезапускає бекенд посеред чужих запитів. Це вже раз спричинило "Failed to
+// fetch" на синхронізації з Новою Поштою. Краще просто залогувати і жити далі.
+process.on("unhandledRejection", (err) => {
+  // eslint-disable-next-line no-console
+  console.error("Необроблена помилка (сервер НЕ перезапускається):", err);
+});
+
 const app = express();
 app.use(cors({ origin: process.env.CORS_ORIGIN || "*" }));
 app.use(express.json());

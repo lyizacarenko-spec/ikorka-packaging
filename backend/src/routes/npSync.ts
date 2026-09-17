@@ -1,4 +1,5 @@
 import { Router } from "express";
+import type express from "express";
 import { pool } from "../db";
 import { requireAuth, requireEditor } from "../auth";
 
@@ -12,9 +13,11 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function toNpDate(isoDate: string): string {
-  // "2026-09-01" -> "01.09.2026"
-  const [y, m, d] = isoDate.slice(0, 10).split("-");
+function toNpDate(isoDate: string | Date): string {
+  // pg повертає DATE-колонки як об'єкт Date, а не рядок — обробляємо обидва випадки.
+  // "2026-09-01" / Date(2026-09-01) -> "01.09.2026"
+  const iso = isoDate instanceof Date ? isoDate.toISOString() : String(isoDate);
+  const [y, m, d] = iso.slice(0, 10).split("-");
   return `${d}.${m}.${y}`;
 }
 
@@ -63,6 +66,21 @@ async function getAllDocuments(apiKey: string, dateFrom: string, dateTo: string)
 // і фронтенд отримує "Failed to fetch" (з'єднання обривається раніше, ніж
 // бекенд встигає все обробити).
 router.post("/np-sync", async (req, res) => {
+  try {
+    await runNpSync(req, res);
+  } catch (err) {
+    // Будь-яка неочікувана помилка тут раніше валила ввесь процес (Express 4 не ловить
+    // винятки з async-обробників сам) — Railway перезапускав контейнер посеред запиту,
+    // і фронтенд бачив "Failed to fetch". Тепер повертаємо звичайну помилку.
+    // eslint-disable-next-line no-console
+    console.error("np-sync failed:", err);
+    if (!res.headersSent) {
+      res.status(500).json({ error: err instanceof Error ? err.message : "Помилка синхронізації з Новою Поштою" });
+    }
+  }
+});
+
+async function runNpSync(req: express.Request, res: express.Response) {
   const { period_id } = req.body;
   if (!period_id) return res.status(400).json({ error: "period_id обов'язковий" });
 
@@ -158,6 +176,6 @@ router.post("/np-sync", async (req, res) => {
   });
 
   res.json(result);
-});
+}
 
 export default router;
