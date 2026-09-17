@@ -73,6 +73,16 @@ export default function DataEntry() {
     }
   }
 
+  async function deleteDelivery(id: number) {
+    if (!window.confirm("Видалити цей запис? Дію не можна скасувати.")) return;
+    try {
+      await api.del(`/deliveries/${id}`);
+      await loadDeliveries();
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : "Помилка видалення");
+    }
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
@@ -254,6 +264,7 @@ export default function DataEntry() {
                 <th>Собівартість упак., грн</th>
                 <th>Тариф НП, грн</th>
                 <th>Економія, грн</th>
+                <th>Дії</th>
               </tr>
             </thead>
             <tbody>
@@ -274,11 +285,18 @@ export default function DataEntry() {
                   <td className={d.savings_uah && Number(d.savings_uah) >= 0 ? "positive" : "negative"}>
                     {d.savings_uah ?? "—"}
                   </td>
+                  <td>
+                    {canEdit && (
+                      <button type="button" className="btn secondary" onClick={() => deleteDelivery(d.id)}>
+                        Видалити
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))}
               {!deliveries.length && (
                 <tr>
-                  <td colSpan={12} style={{ color: "var(--text-muted)" }}>
+                  <td colSpan={13} style={{ color: "var(--text-muted)" }}>
                     Немає записів.
                   </td>
                 </tr>
