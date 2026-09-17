@@ -213,13 +213,15 @@ SELECT
     p.date_to,
     d.box_type_id,
     COALESCE(bu.total_qty, d.qty_packaging) AS qty_packaging,
-    (bu.total_qty IS NOT NULL) AS from_np_sync,
+    own_price.price AS own_box_price,
     COALESCE(bu.own_cost, ROUND(COALESCE(own_price.price, 0) * d.qty_packaging, 2)) AS own_packaging_cost,
+    np.price AS np_tariff_price,
     COALESCE(bu.np_cost, ROUND(COALESCE(np.price, 0) * d.qty_packaging, 2)) AS np_equivalent_cost,
     ROUND(
         COALESCE(bu.np_cost, ROUND(COALESCE(np.price, 0) * d.qty_packaging, 2))
         - COALESCE(bu.own_cost, ROUND(COALESCE(own_price.price, 0) * d.qty_packaging, 2)),
-    2) AS savings_uah
+    2) AS savings_uah,
+    (bu.total_qty IS NOT NULL) AS from_np_sync
 FROM deliveries d
 JOIN periods p ON p.id = d.period_id
 -- Якщо для цього ФОП+періоду є точна розбивка по коробках із НП — рахуємо по ній
@@ -244,7 +246,12 @@ LEFT JOIN LATERAL (
     ) unt ON TRUE
     WHERE u.period_id = d.period_id AND u.manager_id = d.manager_id
     GROUP BY u.period_id, u.manager_id
-) bu ON TRUE
+) bu ON d.id = (
+    -- прив'язуємо розбивку НП лише до одного (найпершого) запису цього ФОП за
+    -- період, щоб не задвоїти суму, якщо в один період у ФОП раптом дві записи
+    -- (два сегменти одразу)
+    SELECT MIN(d2.id) FROM deliveries d2 WHERE d2.period_id = d.period_id AND d2.manager_id = d.manager_id
+)
 -- Інакше — старий спосіб: один тип коробки на весь запис
 LEFT JOIN LATERAL (
     SELECT price FROM box_prices
