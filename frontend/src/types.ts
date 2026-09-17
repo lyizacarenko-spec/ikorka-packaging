@@ -33,6 +33,14 @@ export interface Period {
   date_to: string;
   label: string;
 }
+export interface DeliveryBoxUsage {
+  box_type_id: number;
+  code: string;
+  name: string;
+  weight_kg: string | null;
+  qty: number;
+  synced_at: string;
+}
 export interface Delivery {
   id: number;
   period_id: number;

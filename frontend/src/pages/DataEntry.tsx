@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { api } from "../api";
 import { useReferenceData } from "../useReferenceData";
-import type { Delivery } from "../types";
+import type { Delivery, DeliveryBoxUsage } from "../types";
 import { useAuth } from "../AuthContext";
 import { Pager, paginate } from "../Pager";
 
@@ -30,6 +30,8 @@ export default function DataEntry() {
   const [message, setMessage] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [expandedRow, setExpandedRow] = useState<number | null>(null);
+  const [boxUsageByDelivery, setBoxUsageByDelivery] = useState<Record<number, DeliveryBoxUsage[] | "loading">>({});
   const [syncing, setSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [syncResult, setSyncResult] = useState<{
@@ -76,6 +78,25 @@ export default function DataEntry() {
       setSyncMessage(err instanceof Error ? err.message : "Помилка синхронізації");
     } finally {
       setSyncing(false);
+    }
+  }
+
+  async function toggleBoxUsage(d: Delivery) {
+    if (expandedRow === d.id) {
+      setExpandedRow(null);
+      return;
+    }
+    setExpandedRow(d.id);
+    if (!boxUsageByDelivery[d.id]) {
+      setBoxUsageByDelivery((prev) => ({ ...prev, [d.id]: "loading" }));
+      try {
+        const rows = await api.get<DeliveryBoxUsage[]>(
+          `/delivery-box-usage?period_id=${d.period_id}&manager_id=${d.manager_id}`
+        );
+        setBoxUsageByDelivery((prev) => ({ ...prev, [d.id]: rows }));
+      } catch {
+        setBoxUsageByDelivery((prev) => ({ ...prev, [d.id]: [] }));
+      }
     }
   }
 
@@ -348,35 +369,71 @@ export default function DataEntry() {
             </thead>
             <tbody>
               {pagedDeliveries.map((d) => (
-                <tr key={d.id}>
-                  <td>{d.period_label}</td>
-                  <td>{d.manager_name}</td>
-                  <td>{d.channel_code}</td>
-                  <td>{d.product_line_name}</td>
-                  <td>{d.qty_shipped}</td>
-                  <td>{d.amount_uah}</td>
-                  <td>{d.qty_returned}</td>
-                  <td>{d.qty_damaged}</td>
-                  <td>{d.qty_packaging}</td>
-                  <td>{d.qty_packaging_free || 0}</td>
-                  <td>{d.own_packaging_cost ?? "—"}</td>
-                  <td>{d.np_equivalent_cost ?? "—"}</td>
-                  <td className={d.savings_uah && Number(d.savings_uah) >= 0 ? "positive" : "negative"}>
-                    {d.savings_uah ?? "—"}
-                  </td>
-                  <td style={{ whiteSpace: "nowrap" }}>
-                    {canEdit && (
-                      <>
-                        <button type="button" className="btn secondary" onClick={() => startEdit(d)}>
-                          Редагувати
-                        </button>{" "}
-                        <button type="button" className="btn secondary" onClick={() => deleteDelivery(d.id)}>
-                          Видалити
-                        </button>
-                      </>
-                    )}
-                  </td>
-                </tr>
+                <Fragment key={d.id}>
+                  <tr>
+                    <td>{d.period_label}</td>
+                    <td>
+                      <button
+                        type="button"
+                        onClick={() => toggleBoxUsage(d)}
+                        style={{ background: "none", border: "none", padding: 0, color: "var(--link, #2563eb)", textDecoration: "underline", cursor: "pointer", font: "inherit" }}
+                        title="Показати розбивку по типах коробок (з автосинку НП)"
+                      >
+                        {d.manager_name}
+                      </button>
+                    </td>
+                    <td>{d.channel_code}</td>
+                    <td>{d.product_line_name}</td>
+                    <td>{d.qty_shipped}</td>
+                    <td>{d.amount_uah}</td>
+                    <td>{d.qty_returned}</td>
+                    <td>{d.qty_damaged}</td>
+                    <td>{d.qty_packaging}</td>
+                    <td>{d.qty_packaging_free || 0}</td>
+                    <td>{d.own_packaging_cost ?? "—"}</td>
+                    <td>{d.np_equivalent_cost ?? "—"}</td>
+                    <td className={d.savings_uah && Number(d.savings_uah) >= 0 ? "positive" : "negative"}>
+                      {d.savings_uah ?? "—"}
+                    </td>
+                    <td style={{ whiteSpace: "nowrap" }}>
+                      {canEdit && (
+                        <>
+                          <button type="button" className="btn secondary" onClick={() => startEdit(d)}>
+                            Редагувати
+                          </button>{" "}
+                          <button type="button" className="btn secondary" onClick={() => deleteDelivery(d.id)}>
+                            Видалити
+                          </button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                  {expandedRow === d.id && (
+                    <tr>
+                      <td colSpan={14} style={{ background: "var(--bg-muted, #f7f7f9)" }}>
+                        {boxUsageByDelivery[d.id] === "loading" && "Завантаження…"}
+                        {boxUsageByDelivery[d.id] && boxUsageByDelivery[d.id] !== "loading" && (
+                          (boxUsageByDelivery[d.id] as DeliveryBoxUsage[]).length === 0 ? (
+                            <span style={{ color: "var(--text-muted)" }}>
+                              Немає розбивки по коробках (запис не синхронізований з Новою Поштою — введений вручну).
+                            </span>
+                          ) : (
+                            <div>
+                              <strong>{d.manager_name} — розбивка коробок за декаду ({d.period_label}):</strong>
+                              <ul style={{ margin: "4px 0 0", paddingLeft: 20 }}>
+                                {(boxUsageByDelivery[d.id] as DeliveryBoxUsage[]).map((u) => (
+                                  <li key={u.box_type_id}>
+                                    {u.name}: {u.qty} шт
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )
+                        )}
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               ))}
               {!deliveries.length && (
                 <tr>

@@ -81,6 +81,24 @@ router.post("/deliveries", requireEditor, async (req, res) => {
   res.status(201).json(rows[0]);
 });
 
+// Розбивка коробок по типах для цього ФОП+періоду (заповнюється автосинком
+// з Нової Пошти) — показуємо при кліку на ФОП у таблиці "Ввід даних".
+router.get("/delivery-box-usage", async (req, res) => {
+  const { period_id, manager_id } = req.query;
+  if (!period_id || !manager_id) {
+    return res.status(400).json({ error: "period_id, manager_id обов'язкові" });
+  }
+  const { rows } = await pool.query(
+    `SELECT bt.id AS box_type_id, bt.code, bt.name, bt.weight_kg, u.qty, u.synced_at
+     FROM delivery_box_usage u
+     JOIN box_types bt ON bt.id = u.box_type_id
+     WHERE u.period_id = $1 AND u.manager_id = $2
+     ORDER BY bt.weight_kg ASC NULLS LAST`,
+    [period_id, manager_id]
+  );
+  res.json(rows);
+});
+
 router.delete("/deliveries/:id", requireEditor, async (req, res) => {
   const { rowCount } = await pool.query("DELETE FROM deliveries WHERE id = $1", [req.params.id]);
   if (!rowCount) return res.status(404).json({ error: "Не знайдено" });
