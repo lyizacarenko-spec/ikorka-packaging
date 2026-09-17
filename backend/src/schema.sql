@@ -227,7 +227,7 @@ JOIN periods p ON p.id = d.period_id
 -- Якщо для цього ФОП+періоду є точна розбивка по коробках із НП — рахуємо по ній
 LEFT JOIN LATERAL (
     SELECT
-        SUM(u.qty) AS total_qty,
+        SUM(u.qty)::int AS total_qty,
         SUM(ROUND(COALESCE(ubp.price, 0) * u.qty, 2)) AS own_cost,
         SUM(ROUND(COALESCE(unt.price, 0) * u.qty, 2)) AS np_cost
     FROM delivery_box_usage u
