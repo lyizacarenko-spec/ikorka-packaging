@@ -114,8 +114,17 @@ async function runNpSync(req: express.Request, res: express.Response) {
   }
 
   const { rows: managers } = await pool.query(
-    "SELECT id, name, np_api_key FROM managers WHERE np_api_key IS NOT NULL"
+    "SELECT id, name, np_api_key, default_channel_id FROM managers WHERE np_api_key IS NOT NULL"
   );
+
+  // Дефолтна товарна лінія — потрібна, якщо для цього ФОП+періоду ще НЕМАЄ
+  // жодного запису доставки (напр. щойно обраний новий період) і синхронізації
+  // нема куди писати: доведеться створити запис самій.
+  const { rows: defaultProductLineRows } = await pool.query(
+    "SELECT id FROM product_lines WHERE is_default = TRUE ORDER BY id LIMIT 1"
+  );
+  const defaultProductLineId: number | null =
+    defaultProductLineRows[0]?.id ?? (await pool.query("SELECT id FROM product_lines ORDER BY id LIMIT 1")).rows[0]?.id ?? null;
 
   const result: { synced: string[]; skipped: string[]; errors: { manager: string; error: string }[] } = {
     synced: [],
@@ -127,7 +136,7 @@ async function runNpSync(req: express.Request, res: express.Response) {
     return res.json({ ...result, message: "Жоден ФОП не має підключеного ключа Нової Пошти." });
   }
 
-  async function syncOneManager(m: { id: number; name: string; np_api_key: string }) {
+  async function syncOneManager(m: { id: number; name: string; np_api_key: string; default_channel_id: number | null }) {
     const docs = await getAllDocuments(m.np_api_key, dateFrom, dateTo);
     if (!docs.length) {
       result.skipped.push(`${m.name} (немає відправлень за період)`);
@@ -162,11 +171,33 @@ async function runNpSync(req: express.Request, res: express.Response) {
       const dominant = Object.entries(byBox).sort((a, b) => b[1] - a[1])[0];
       const totalQty = docs.length;
       if (dominant) {
-        await client.query(
+        const { rowCount } = await client.query(
           `UPDATE deliveries SET qty_packaging = $1, box_type_id = $2, qty_returned = $3, updated_at = now()
            WHERE id = (SELECT MIN(id) FROM deliveries WHERE period_id = $4 AND manager_id = $5)`,
           [totalQty, Number(dominant[0]), returnedCount, period_id, m.id]
         );
+        // Немає жодного запису доставки для цього ФОП+періоду (напр. щойно обраний
+        // новий період, куди ще ніхто нічого не вносив вручну) — створюємо сам.
+        if (!rowCount) {
+          if (!m.default_channel_id || !defaultProductLineId) {
+            throw new Error(
+              !m.default_channel_id
+                ? "немає каналу за замовчуванням у Довідниках — не можу створити новий запис"
+                : "немає жодної товарної лінії в Довідниках — не можу створити новий запис"
+            );
+          }
+          await client.query(
+            `INSERT INTO deliveries
+               (period_id, manager_id, channel_id, product_line_id, qty_packaging, box_type_id, qty_returned, updated_at)
+             VALUES ($1,$2,$3,$4,$5,$6,$7, now())
+             ON CONFLICT (period_id, manager_id, channel_id, product_line_id) DO UPDATE SET
+                qty_packaging = EXCLUDED.qty_packaging,
+                box_type_id = EXCLUDED.box_type_id,
+                qty_returned = EXCLUDED.qty_returned,
+                updated_at = now()`,
+            [period_id, m.id, m.default_channel_id, defaultProductLineId, totalQty, Number(dominant[0]), returnedCount]
+          );
+        }
       }
       await client.query("COMMIT");
     } catch (err) {
