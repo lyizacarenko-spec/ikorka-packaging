@@ -7,14 +7,14 @@ router.use(requireAuth);
 
 // ---- managers ----
 router.get("/managers", async (_req, res) => {
-  const { rows } = await pool.query("SELECT * FROM managers ORDER BY name");
+  const { rows } = await pool.query("SELECT id, name, is_active, default_channel_id, (np_api_key IS NOT NULL) AS has_np_key FROM managers ORDER BY name");
   res.json(rows);
 });
 router.post("/managers", requireEditor, async (req, res) => {
   const { name, is_active = true, default_channel_id = null } = req.body;
   if (!name) return res.status(400).json({ error: "name обов'язкове" });
   const { rows } = await pool.query(
-    "INSERT INTO managers (name, is_active, default_channel_id) VALUES ($1,$2,$3) RETURNING *",
+    "INSERT INTO managers (name, is_active, default_channel_id) VALUES ($1,$2,$3) RETURNING id, name, is_active, default_channel_id, (np_api_key IS NOT NULL) AS has_np_key",
     [name, is_active, default_channel_id]
   );
   res.status(201).json(rows[0]);
@@ -23,13 +23,19 @@ router.put("/managers/:id", requireEditor, async (req, res) => {
   const { name, is_active } = req.body;
   // default_channel_id: якщо поле передано в тілі запиту (навіть null — щоб очистити), використовуємо його; інакше лишаємо як є.
   const channelProvided = "default_channel_id" in req.body;
+  // np_api_key: те саме — тільки owner може міняти (перевірка нижче), і тільки якщо поле передано.
+  const npKeyProvided = "np_api_key" in req.body;
+  if (npKeyProvided && req.user?.role !== "owner") {
+    return res.status(403).json({ error: "Тільки власник може змінювати API-ключ Нової Пошти" });
+  }
   const { rows } = await pool.query(
     `UPDATE managers SET
         name = COALESCE($1, name),
         is_active = COALESCE($2, is_active),
-        default_channel_id = CASE WHEN $3 THEN $4::int ELSE default_channel_id END
-     WHERE id = $5 RETURNING *`,
-    [name, is_active, channelProvided, req.body.default_channel_id ?? null, req.params.id]
+        default_channel_id = CASE WHEN $3 THEN $4::int ELSE default_channel_id END,
+        np_api_key = CASE WHEN $6 THEN NULLIF($7, '') ELSE np_api_key END
+     WHERE id = $5 RETURNING id, name, is_active, default_channel_id, (np_api_key IS NOT NULL) AS has_np_key`,
+    [name, is_active, channelProvided, req.body.default_channel_id ?? null, req.params.id, npKeyProvided, req.body.np_api_key ?? null]
   );
   if (!rows.length) return res.status(404).json({ error: "Не знайдено" });
   res.json(rows[0]);

@@ -8,6 +8,7 @@ import pricesRoutes from "./routes/prices";
 import deliveriesRoutes from "./routes/deliveries";
 import stockRoutes from "./routes/stock";
 import reportsRoutes from "./routes/reports";
+import npSyncRoutes from "./routes/npSync";
 
 const app = express();
 app.use(cors({ origin: process.env.CORS_ORIGIN || "*" }));
@@ -28,6 +29,7 @@ app.use("/api", pricesRoutes);
 app.use("/api", deliveriesRoutes);
 app.use("/api", stockRoutes);
 app.use("/api", reportsRoutes);
+app.use("/api", npSyncRoutes);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {

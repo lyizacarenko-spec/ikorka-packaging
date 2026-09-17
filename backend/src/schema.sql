@@ -27,9 +27,11 @@ CREATE TABLE IF NOT EXISTS managers (
     id                 SERIAL PRIMARY KEY,
     name               TEXT NOT NULL UNIQUE,
     is_active          BOOLEAN NOT NULL DEFAULT TRUE,
-    default_channel_id INT REFERENCES sales_channels(id)  -- який ФОП/канал за замовчуванням у цього менеджера (щоб не вибирати вручну при вводі)
+    default_channel_id INT REFERENCES sales_channels(id),  -- який ФОП/канал за замовчуванням у цього менеджера (щоб не вибирати вручну при вводі)
+    np_api_key         TEXT  -- особистий API-ключ цього ФОП у Новій Пошті (для автосинку ваги/коробок), NULL якщо не підключено
 );
 ALTER TABLE managers ADD COLUMN IF NOT EXISTS default_channel_id INT REFERENCES sales_channels(id);
+ALTER TABLE managers ADD COLUMN IF NOT EXISTS np_api_key TEXT;
 
 CREATE TABLE IF NOT EXISTS product_lines (
     id          SERIAL PRIMARY KEY,
@@ -156,6 +158,25 @@ CREATE TABLE IF NOT EXISTS stock_movements (
 CREATE INDEX IF NOT EXISTS idx_stock_movements_date ON stock_movements(movement_date);
 
 -- ------------------------------------------------------------
+-- РОЗБИВКА КОРОБОК ЗА ДАНИМИ НОВОЇ ПОШТИ
+-- Автоматично підтягується з API НП (за фактичною вагою відправлень
+-- цього ФОП за декаду) — набагато точніше за один "середній" тип
+-- коробки на весь запис. Коли для (period_id, manager_id) є хоч один
+-- рядок тут, v_delivery_cost рахує собівартість/економію по ній,
+-- а не по deliveries.box_type_id/qty_packaging.
+-- ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS delivery_box_usage (
+    id          SERIAL PRIMARY KEY,
+    period_id   INT NOT NULL REFERENCES periods(id),
+    manager_id  INT NOT NULL REFERENCES managers(id),
+    box_type_id INT NOT NULL REFERENCES box_types(id),
+    qty         INT NOT NULL,
+    synced_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+    UNIQUE (period_id, manager_id, box_type_id)
+);
+
+-- ------------------------------------------------------------
 -- ПОЛЬЗОВАТЕЛИ / ДОСТУП (3 уровня, PIN-логин по образцу других панелей)
 -- ------------------------------------------------------------
 
@@ -191,21 +212,45 @@ SELECT
     d.period_id,
     p.date_to,
     d.box_type_id,
-    d.qty_packaging,
-    own_price.price AS own_box_price,
-    ROUND(COALESCE(own_price.price, 0) * d.qty_packaging, 2) AS own_packaging_cost,
-    np.price AS np_tariff_price,
-    ROUND(COALESCE(np.price, 0) * d.qty_packaging, 2) AS np_equivalent_cost,
+    COALESCE(bu.total_qty, d.qty_packaging) AS qty_packaging,
+    (bu.total_qty IS NOT NULL) AS from_np_sync,
+    COALESCE(bu.own_cost, ROUND(COALESCE(own_price.price, 0) * d.qty_packaging, 2)) AS own_packaging_cost,
+    COALESCE(bu.np_cost, ROUND(COALESCE(np.price, 0) * d.qty_packaging, 2)) AS np_equivalent_cost,
     ROUND(
-        (COALESCE(np.price, 0) - COALESCE(own_price.price, 0)) * d.qty_packaging,
+        COALESCE(bu.np_cost, ROUND(COALESCE(np.price, 0) * d.qty_packaging, 2))
+        - COALESCE(bu.own_cost, ROUND(COALESCE(own_price.price, 0) * d.qty_packaging, 2)),
     2) AS savings_uah
 FROM deliveries d
 JOIN periods p ON p.id = d.period_id
+-- Якщо для цього ФОП+періоду є точна розбивка по коробках із НП — рахуємо по ній
+LEFT JOIN LATERAL (
+    SELECT
+        SUM(u.qty) AS total_qty,
+        SUM(ROUND(COALESCE(ubp.price, 0) * u.qty, 2)) AS own_cost,
+        SUM(ROUND(COALESCE(unt.price, 0) * u.qty, 2)) AS np_cost
+    FROM delivery_box_usage u
+    JOIN box_types ubt ON ubt.id = u.box_type_id
+    LEFT JOIN LATERAL (
+        SELECT price FROM box_prices
+        WHERE box_type_id = u.box_type_id AND valid_from <= p.date_to
+        ORDER BY valid_from DESC LIMIT 1
+    ) ubp ON TRUE
+    LEFT JOIN LATERAL (
+        SELECT price FROM np_tariffs
+        WHERE valid_from <= p.date_to
+          AND ubt.weight_kg IS NOT NULL
+          AND ubt.weight_kg > weight_from AND ubt.weight_kg <= weight_to
+        ORDER BY valid_from DESC LIMIT 1
+    ) unt ON TRUE
+    WHERE u.period_id = d.period_id AND u.manager_id = d.manager_id
+    GROUP BY u.period_id, u.manager_id
+) bu ON TRUE
+-- Інакше — старий спосіб: один тип коробки на весь запис
 LEFT JOIN LATERAL (
     SELECT price FROM box_prices
     WHERE box_type_id = d.box_type_id AND valid_from <= p.date_to
     ORDER BY valid_from DESC LIMIT 1
-) own_price ON d.box_type_id IS NOT NULL
+) own_price ON d.box_type_id IS NOT NULL AND bu.total_qty IS NULL
 LEFT JOIN box_types bt ON bt.id = d.box_type_id
 LEFT JOIN LATERAL (
     SELECT price FROM np_tariffs
@@ -213,7 +258,7 @@ LEFT JOIN LATERAL (
       AND bt.weight_kg IS NOT NULL
       AND bt.weight_kg > weight_from AND bt.weight_kg <= weight_to
     ORDER BY valid_from DESC LIMIT 1
-) np ON TRUE;
+) np ON bu.total_qty IS NULL;
 
 -- Месячный отчёт: период → месяц, сегмент, товарная линия
 CREATE OR REPLACE VIEW v_monthly_summary AS

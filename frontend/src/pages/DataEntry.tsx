@@ -28,6 +28,8 @@ export default function DataEntry() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [page, setPage] = useState(1);
+  const [syncing, setSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const PAGE_SIZE = 30;
 
   async function loadDeliveries() {
@@ -45,6 +47,29 @@ export default function DataEntry() {
 
   function update(field: keyof typeof form, value: string) {
     setForm((f) => ({ ...f, [field]: value }));
+  }
+
+  async function syncWithNp() {
+    if (!filterPeriod) return;
+    setSyncing(true);
+    setSyncMessage(null);
+    try {
+      const result = await api.post<{ synced: string[]; skipped: string[]; errors: { manager: string; error: string }[]; message?: string }>(
+        "/np-sync",
+        { period_id: Number(filterPeriod) }
+      );
+      const parts: string[] = [];
+      if (result.message) parts.push(result.message);
+      if (result.synced.length) parts.push(`Оновлено: ${result.synced.join(", ")}.`);
+      if (result.skipped.length) parts.push(`Пропущено: ${result.skipped.join(", ")}.`);
+      if (result.errors.length) parts.push(`Помилки: ${result.errors.map((e) => `${e.manager} — ${e.error}`).join("; ")}.`);
+      setSyncMessage(parts.join(" ") || "Готово, але змін немає.");
+      await loadDeliveries();
+    } catch (err) {
+      setSyncMessage(err instanceof Error ? err.message : "Помилка синхронізації");
+    } finally {
+      setSyncing(false);
+    }
   }
 
   async function submit(e: React.FormEvent) {
@@ -199,7 +224,13 @@ export default function DataEntry() {
               ))}
             </select>
           </label>
+          {canEdit && (
+            <button type="button" className="btn secondary" disabled={!filterPeriod || syncing} onClick={syncWithNp} title={!filterPeriod ? "Спочатку виберіть конкретний період вище" : undefined}>
+              {syncing ? "Синхронізую…" : "Синхронізувати з Новою Поштою"}
+            </button>
+          )}
         </div>
+        {syncMessage && <p style={{ fontSize: 13, color: "var(--text-muted)" }}>{syncMessage}</p>}
         <div className="table-wrap">
           <table>
             <thead>

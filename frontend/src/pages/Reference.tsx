@@ -10,6 +10,7 @@ export default function Reference() {
   const canEdit = user?.role === "owner" || user?.role === "editor";
 
   const [newManager, setNewManager] = useState("");
+  const [npKeyDrafts, setNpKeyDrafts] = useState<Record<number, string>>({});
   const [newBox, setNewBox] = useState({ code: "", name: "", weight_kg: "" });
   const [newMaterial, setNewMaterial] = useState({ code: "", name: "", unit: "" });
   const [newLine, setNewLine] = useState("");
@@ -39,6 +40,29 @@ export default function Reference() {
     setBusy(true);
     try {
       await api.put(`/managers/${managerId}`, { default_channel_id: channelId ? Number(channelId) : null });
+      await reload();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function saveNpKey(managerId: number) {
+    const key = (npKeyDrafts[managerId] || "").trim();
+    if (!key) return;
+    setBusy(true);
+    try {
+      await api.put(`/managers/${managerId}`, { np_api_key: key });
+      setNpKeyDrafts((d) => ({ ...d, [managerId]: "" }));
+      await reload();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function clearNpKey(managerId: number) {
+    setBusy(true);
+    try {
+      await api.put(`/managers/${managerId}`, { np_api_key: "" });
       await reload();
     } finally {
       setBusy(false);
@@ -156,9 +180,13 @@ export default function Reference() {
         <p style={{ fontSize: 13, color: "var(--text-muted)" }}>
           Канал за замовчуванням — щоб при вводі даних сегмент (ХБ/ГБ) підставлявся сам, коли обираєш ФОП.
         </p>
+        <p style={{ fontSize: 13, color: "var(--text-muted)" }}>
+          Ключ Нової Пошти — щоб програма сама підтягувала фактичну вагу відправлень цього ФОП
+          (для точної «Упаковки»/«Тип коробки» і «Економії»). Змінювати ключ може тільки власник.
+        </p>
         <div className="table-wrap">
           <table>
-            <thead><tr><th>Ім'я</th><th>Активний</th><th>Канал за замовч.</th></tr></thead>
+            <thead><tr><th>Ім'я</th><th>Активний</th><th>Канал за замовч.</th><th>Ключ Нової Пошти</th></tr></thead>
             <tbody>
               {managersPaged.pageItems.map((m) => (
                 <tr key={m.id}>
@@ -179,6 +207,30 @@ export default function Reference() {
                       </select>
                     ) : (
                       channels.find((c) => c.id === m.default_channel_id)?.code ?? "—"
+                    )}
+                  </td>
+                  <td>
+                    {user?.role === "owner" ? (
+                      <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                        <input
+                          className="input"
+                          type="password"
+                          placeholder={m.has_np_key ? "підключено — вставте новий, щоб замінити" : "вставте ключ"}
+                          value={npKeyDrafts[m.id] ?? ""}
+                          onChange={(e) => setNpKeyDrafts((d) => ({ ...d, [m.id]: e.target.value }))}
+                          style={{ minWidth: 160 }}
+                        />
+                        <button type="button" className="btn secondary" disabled={busy || !(npKeyDrafts[m.id] || "").trim()} onClick={() => saveNpKey(m.id)}>
+                          Зберегти
+                        </button>
+                        {m.has_np_key && (
+                          <button type="button" className="btn secondary" disabled={busy} onClick={() => clearNpKey(m.id)}>
+                            Відключити
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      m.has_np_key ? "підключено" : "не підключено"
                     )}
                   </td>
                 </tr>

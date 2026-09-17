@@ -3,6 +3,7 @@ export interface Manager {
   name: string;
   is_active: boolean;
   default_channel_id: number | null;
+  has_np_key: boolean;
 }
 export interface SalesChannel {
   id: number;
