@@ -111,10 +111,12 @@ CREATE TABLE IF NOT EXISTS deliveries (
     qty_damaged     INT NOT NULL DEFAULT 0,   -- утиль (разбитые банки), ручной ввод
     qty_packaging   INT NOT NULL DEFAULT 0,   -- "упаковка" — расход коробок за период
     box_type_id     INT REFERENCES box_types(id),  -- какой тип коробки использован для qty_packaging (для расчёта себестоимости/экономии)
+    qty_packaging_free INT NOT NULL DEFAULT 0,  -- скільки з qty_packaging - б/у (безкоштовні, повторно використані), не рахуються у собівартість
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
     UNIQUE (period_id, manager_id, channel_id, product_line_id)
 );
+ALTER TABLE deliveries ADD COLUMN IF NOT EXISTS qty_packaging_free INT NOT NULL DEFAULT 0;
 
 CREATE INDEX IF NOT EXISTS idx_deliveries_period   ON deliveries(period_id);
 CREATE INDEX IF NOT EXISTS idx_deliveries_channel  ON deliveries(channel_id);
@@ -214,12 +216,22 @@ SELECT
     d.box_type_id,
     COALESCE(bu.total_qty, d.qty_packaging) AS qty_packaging,
     own_price.price AS own_box_price,
-    COALESCE(bu.own_cost, ROUND(COALESCE(own_price.price, 0) * d.qty_packaging, 2)) AS own_packaging_cost,
+    ROUND(
+        COALESCE(bu.own_cost, ROUND(COALESCE(own_price.price, 0) * d.qty_packaging, 2))
+        * CASE WHEN COALESCE(bu.total_qty, d.qty_packaging) > 0
+               THEN GREATEST(COALESCE(bu.total_qty, d.qty_packaging) - d.qty_packaging_free, 0)::numeric
+                    / COALESCE(bu.total_qty, d.qty_packaging)
+               ELSE 1 END,
+    2) AS own_packaging_cost,
     np.price AS np_tariff_price,
     COALESCE(bu.np_cost, ROUND(COALESCE(np.price, 0) * d.qty_packaging, 2)) AS np_equivalent_cost,
     ROUND(
         COALESCE(bu.np_cost, ROUND(COALESCE(np.price, 0) * d.qty_packaging, 2))
-        - COALESCE(bu.own_cost, ROUND(COALESCE(own_price.price, 0) * d.qty_packaging, 2)),
+        - COALESCE(bu.own_cost, ROUND(COALESCE(own_price.price, 0) * d.qty_packaging, 2))
+          * CASE WHEN COALESCE(bu.total_qty, d.qty_packaging) > 0
+                 THEN GREATEST(COALESCE(bu.total_qty, d.qty_packaging) - d.qty_packaging_free, 0)::numeric
+                      / COALESCE(bu.total_qty, d.qty_packaging)
+                 ELSE 1 END,
     2) AS savings_uah,
     (bu.total_qty IS NOT NULL) AS from_np_sync
 FROM deliveries d

@@ -53,6 +53,7 @@ router.post("/deliveries", requireEditor, async (req, res) => {
     qty_damaged = 0,
     qty_packaging = 0,
     box_type_id = null,
+    qty_packaging_free = 0,
   } = req.body;
 
   if (!period_id || !manager_id || !channel_id || !product_line_id) {
@@ -62,8 +63,8 @@ router.post("/deliveries", requireEditor, async (req, res) => {
   const { rows } = await pool.query(
     `INSERT INTO deliveries
        (period_id, manager_id, channel_id, product_line_id,
-        qty_shipped, amount_uah, qty_returned, qty_damaged, qty_packaging, box_type_id, updated_at)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, now())
+        qty_shipped, amount_uah, qty_returned, qty_damaged, qty_packaging, box_type_id, qty_packaging_free, updated_at)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11, now())
      ON CONFLICT (period_id, manager_id, channel_id, product_line_id)
      DO UPDATE SET
         qty_shipped = EXCLUDED.qty_shipped,
@@ -72,9 +73,10 @@ router.post("/deliveries", requireEditor, async (req, res) => {
         qty_damaged = EXCLUDED.qty_damaged,
         qty_packaging = EXCLUDED.qty_packaging,
         box_type_id = EXCLUDED.box_type_id,
+        qty_packaging_free = EXCLUDED.qty_packaging_free,
         updated_at = now()
      RETURNING *`,
-    [period_id, manager_id, channel_id, product_line_id, qty_shipped, amount_uah, qty_returned, qty_damaged, qty_packaging, box_type_id]
+    [period_id, manager_id, channel_id, product_line_id, qty_shipped, amount_uah, qty_returned, qty_damaged, qty_packaging, box_type_id, qty_packaging_free]
   );
   res.status(201).json(rows[0]);
 });

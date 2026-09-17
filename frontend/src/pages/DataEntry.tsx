@@ -16,6 +16,7 @@ const emptyForm = {
   qty_damaged: "",
   qty_packaging: "",
   box_type_id: "",
+  qty_packaging_free: "",
 };
 
 export default function DataEntry() {
@@ -88,6 +89,7 @@ export default function DataEntry() {
         qty_damaged: Number(form.qty_damaged || 0),
         qty_packaging: Number(form.qty_packaging || 0),
         box_type_id: form.box_type_id ? Number(form.box_type_id) : null,
+        qty_packaging_free: Number(form.qty_packaging_free || 0),
       });
       setMessage("Збережено.");
       setForm((f) => ({ ...emptyForm, period_id: f.period_id, channel_id: f.channel_id, box_type_id: f.box_type_id }));
@@ -201,6 +203,10 @@ export default function DataEntry() {
                   ))}
                 </select>
               </label>
+              <label>
+                З них б/у, шт (безкоштовні — не входять у собівартість)
+                <input className="input" type="number" min={0} value={form.qty_packaging_free} onChange={(e) => update("qty_packaging_free", e.target.value)} />
+              </label>
             </div>
             <button className="btn" type="submit" disabled={saving}>
               {saving ? "Збереження…" : "Зберегти"}
@@ -244,6 +250,7 @@ export default function DataEntry() {
                 <th>Повернень</th>
                 <th>Утиль</th>
                 <th>Упаковка</th>
+                <th>З них б/у</th>
                 <th>Собівартість упак., грн</th>
                 <th>Тариф НП, грн</th>
                 <th>Економія, грн</th>
@@ -261,6 +268,7 @@ export default function DataEntry() {
                   <td>{d.qty_returned}</td>
                   <td>{d.qty_damaged}</td>
                   <td>{d.qty_packaging}</td>
+                  <td>{d.qty_packaging_free || 0}</td>
                   <td>{d.own_packaging_cost ?? "—"}</td>
                   <td>{d.np_equivalent_cost ?? "—"}</td>
                   <td className={d.savings_uah && Number(d.savings_uah) >= 0 ? "positive" : "negative"}>

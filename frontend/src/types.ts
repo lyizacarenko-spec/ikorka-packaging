@@ -45,6 +45,7 @@ export interface Delivery {
   qty_damaged: number;
   qty_packaging: number;
   box_type_id: number | null;
+  qty_packaging_free: number;
   period_label: string;
   manager_name: string;
   channel_code: string;
