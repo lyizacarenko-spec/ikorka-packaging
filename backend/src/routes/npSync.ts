@@ -31,7 +31,29 @@ async function npCall(apiKey: string, body: Record<string, unknown>, attempt = 1
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ apiKey, ...body }),
   });
-  const data = await res.json();
+  const rawText = await res.text();
+  let data: any;
+  try {
+    data = JSON.parse(rawText);
+  } catch {
+    // НП іноді (при перевантаженні / тимчасовому блокуванні по IP) віддає
+    // не JSON, а сторінку помилки (HTML) - fetch().json() падав з незрозумілим
+    // "Unexpected token < in JSON at position 0". Логуємо шматок реальної
+    // відповіді в Railway-логи (щоб бачити, що саме прийшло), і ретраїмо
+    // так само, як "too many requests" - це майже завжди тимчасово.
+    // eslint-disable-next-line no-console
+    console.error(
+      `np-sync: НП повернула не-JSON (HTTP ${res.status}), спроба ${attempt}:`,
+      rawText.slice(0, 300)
+    );
+    if (attempt < 9) {
+      await sleep(Math.min(3000 * attempt, 20000));
+      return npCall(apiKey, body, attempt + 1);
+    }
+    throw new Error(
+      `Нова Пошта тимчасово не відповідає коректно (HTTP ${res.status}, не JSON) - спробуйте синхронізацію ще раз за кілька хвилин`
+    );
+  }
   if (!data.success) {
     const msg = (data.errors && data.errors.join(", ")) || JSON.stringify(data);
     if (/too many requests/i.test(msg) && attempt < 9) {
