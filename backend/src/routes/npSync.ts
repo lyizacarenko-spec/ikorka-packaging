@@ -21,6 +21,10 @@ function toNpDate(isoDate: string | Date): string {
   return `${d}.${m}.${y}`;
 }
 
+// НП, схоже, тримає ліміт швидкості не лише по ключу, а й сумарно з нашого сервера -
+// при 10+ ФОП, які синхронізуються паралельно, окремим ключам іноді не вистачало
+// колишніх 5 спроб (макс. очікування ~12.5с), тож збільшили запас спроб і
+// обмежили одну паузу згори, щоб довге очікування не приходилось одним стрибком.
 async function npCall(apiKey: string, body: Record<string, unknown>, attempt = 1): Promise<any[]> {
   const res = await fetch(NP_URL, {
     method: "POST",
@@ -30,8 +34,8 @@ async function npCall(apiKey: string, body: Record<string, unknown>, attempt = 1
   const data = await res.json();
   if (!data.success) {
     const msg = (data.errors && data.errors.join(", ")) || JSON.stringify(data);
-    if (/too many requests/i.test(msg) && attempt < 5) {
-      await sleep(2500 * attempt);
+    if (/too many requests/i.test(msg) && attempt < 9) {
+      await sleep(Math.min(2500 * attempt, 15000));
       return npCall(apiKey, body, attempt + 1);
     }
     throw new Error(msg);
@@ -223,7 +227,14 @@ async function runNpSync(req: express.Request, res: express.Response) {
     );
   }
 
-  const outcomes = await Promise.allSettled(managers.map((m) => syncOneManager(m)));
+  // Легкий "стагер" старту кожного ФОП (замість усіх одночасно) - зменшує сплеск
+  // запитів у першу секунду, який і провокував "too many requests" при 10+ ФОП.
+  const outcomes = await Promise.allSettled(
+    managers.map(async (m, i) => {
+      await sleep(i * 400);
+      return syncOneManager(m);
+    })
+  );
   outcomes.forEach((outcome, i) => {
     if (outcome.status === "rejected") {
       const m = managers[i];
