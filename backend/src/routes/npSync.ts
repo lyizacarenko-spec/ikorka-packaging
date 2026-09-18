@@ -13,6 +13,11 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// Кидається, коли НП стабільно віддає не-JSON (HTML сторінка помилки) - це ознака
+// системного блокування (IP сервера), а не проблеми з конкретним ключем. Окремий
+// тип помилки, щоб можна було відрізнити від "просто щось не так з цим ФОП".
+class NpBlockedError extends Error {}
+
 function toNpDate(isoDate: string | Date): string {
   // pg повертає DATE-колонки як об'єкт Date, а не рядок — обробляємо обидва випадки.
   // "2026-09-01" / Date(2026-09-01) -> "01.09.2026"
@@ -47,18 +52,21 @@ async function npCall(apiKey: string, body: Record<string, unknown>, attempt = 1
       `np-sync: НП повернула не-JSON (HTTP ${res.status}), спроба ${attempt}:`,
       rawText.slice(0, 300)
     );
-    if (attempt < 5) {
-      await sleep(Math.min(2500 * attempt, 10000));
+    // Швидкий фейл замість довгого перебору спроб: якщо це справжнє системне
+    // блокування, 5 спроб по 10с все одно не допоможуть, а лише тримають юзера
+    // хвилинами. 2 спроби з короткою паузою - і далі вирішує "запобіжник" нижче.
+    if (attempt < 2) {
+      await sleep(2000);
       return npCall(apiKey, body, attempt + 1);
     }
-    throw new Error(
-      `Нова Пошта тимчасово не відповідає коректно (HTTP ${res.status}, не JSON) - спробуйте синхронізацію ще раз за кілька хвилин`
+    throw new NpBlockedError(
+      `Нова Пошта тимчасово не відповідає коректно (HTTP ${res.status}, не JSON) - спробуйте синхронізацію ще раз пізніше`
     );
   }
   if (!data.success) {
     const msg = (data.errors && data.errors.join(", ")) || JSON.stringify(data);
-    if (/too many requests/i.test(msg) && attempt < 5) {
-      await sleep(Math.min(2000 * attempt, 8000));
+    if (/too many requests/i.test(msg) && attempt < 3) {
+      await sleep(Math.min(2000 * attempt, 6000));
       return npCall(apiKey, body, attempt + 1);
     }
     throw new Error(msg);
@@ -256,16 +264,34 @@ async function runNpSync(req: express.Request, res: express.Response) {
   // окремі ключі (з іншої IP той самий ключ відповідав нормально). Обмеження
   // паралельності зменшує пікове навантаження з одного IP.
   const CONCURRENCY = 4;
+  // "Запобіжник": якщо кілька ФОП поспіль впали з NpBlockedError (системний
+  // не-JSON блок, а не проблема конкретного ключа) - решту чергу навіть не
+  // пробуємо, а одразу позначаємо як пропущені. Без цього застосунок ганяв би
+  // ще 15-20 однаково приречених повторних спроб і "висів" би хвилинами.
+  let blockedCount = 0;
+  let circuitOpen = false;
+  const CIRCUIT_THRESHOLD = 2;
   const outcomes: PromiseSettledResult<void>[] = new Array(managers.length);
   let nextIndex = 0;
   async function worker() {
     while (nextIndex < managers.length) {
       const i = nextIndex++;
+      if (circuitOpen) {
+        outcomes[i] = {
+          status: "rejected",
+          reason: new Error("Пропущено: Нова Пошта наразі блокує запити з нашого сервера (спробуйте пізніше)"),
+        };
+        continue;
+      }
       try {
         await syncOneManager(managers[i]);
         outcomes[i] = { status: "fulfilled", value: undefined };
       } catch (err) {
         outcomes[i] = { status: "rejected", reason: err };
+        if (err instanceof NpBlockedError) {
+          blockedCount++;
+          if (blockedCount >= CIRCUIT_THRESHOLD) circuitOpen = true;
+        }
       }
     }
   }
@@ -278,7 +304,15 @@ async function runNpSync(req: express.Request, res: express.Response) {
     }
   });
 
-  res.json(result);
+  res.json({
+    ...result,
+    ...(circuitOpen
+      ? {
+          message:
+            "Нова Пошта заблокувала запити з нашого сервера (стабільна помилка одразу в кількох ФОП) - решту не пробували, щоб не тримати вас хвилинами. Спробуйте синхронізацію пізніше.",
+        }
+      : {}),
+  });
 }
 
 export default router;
