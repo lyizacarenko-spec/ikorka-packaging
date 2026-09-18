@@ -250,14 +250,26 @@ async function runNpSync(req: express.Request, res: express.Response) {
     );
   }
 
-  // Легкий "стагер" старту кожного ФОП (замість усіх одночасно) - зменшує сплеск
-  // запитів у першу секунду, який і провокував "too many requests" при 10+ ФОП.
-  const outcomes = await Promise.allSettled(
-    managers.map(async (m, i) => {
-      await sleep(i * 200);
-      return syncOneManager(m);
-    })
-  );
+  // Синхронізуємо ФОП обмеженими "хвилями" (не всі 23 одночасно) - підтверджено
+  // діагностикою (18.09.2026), що НП/проксі перед їхнім API тимчасово блокує саме
+  // IP-адресу нашого сервера при великому сплеску запитів за короткий час, а не
+  // окремі ключі (з іншої IP той самий ключ відповідав нормально). Обмеження
+  // паралельності зменшує пікове навантаження з одного IP.
+  const CONCURRENCY = 4;
+  const outcomes: PromiseSettledResult<void>[] = new Array(managers.length);
+  let nextIndex = 0;
+  async function worker() {
+    while (nextIndex < managers.length) {
+      const i = nextIndex++;
+      try {
+        await syncOneManager(managers[i]);
+        outcomes[i] = { status: "fulfilled", value: undefined };
+      } catch (err) {
+        outcomes[i] = { status: "rejected", reason: err };
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, managers.length) }, () => worker()));
   outcomes.forEach((outcome, i) => {
     if (outcome.status === "rejected") {
       const m = managers[i];
