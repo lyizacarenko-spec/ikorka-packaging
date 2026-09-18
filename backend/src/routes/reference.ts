@@ -111,6 +111,16 @@ router.post("/periods", requireEditor, async (req, res) => {
   if (!date_from || !date_to || !label) {
     return res.status(400).json({ error: "date_from, date_to, label обов'язкові" });
   }
+  // Захист від фат-фінгеру в <input type="date"> (напр. зайва цифра в році при
+  // ручному наборі/скролі) - 18.09.2026 через це період з роком 20226 замість
+  // 2026 весь час валив синхронізацію з Новою Поштою незрозумілою помилкою.
+  const yearFrom = Number(String(date_from).slice(0, 4));
+  const yearTo = Number(String(date_to).slice(0, 4));
+  if (yearFrom < 2000 || yearFrom > 2100 || yearTo < 2000 || yearTo > 2100) {
+    return res.status(400).json({
+      error: `Некоректний рік у даті (${date_from} / ${date_to}) - перевірте, чи не зайва цифра в році`,
+    });
+  }
   const { rows } = await pool.query(
     `INSERT INTO periods (date_from, date_to, label) VALUES ($1,$2,$3)
      ON CONFLICT (date_from, date_to) DO UPDATE SET label = EXCLUDED.label
@@ -118,6 +128,20 @@ router.post("/periods", requireEditor, async (req, res) => {
     [date_from, date_to, label]
   );
   res.status(201).json(rows[0]);
+});
+
+router.delete("/periods/:id", requireEditor, async (req, res) => {
+  try {
+    const { rowCount } = await pool.query("DELETE FROM periods WHERE id = $1", [req.params.id]);
+    if (!rowCount) return res.status(404).json({ error: "Не знайдено" });
+    res.status(204).end();
+  } catch (err: any) {
+    // FK-порушення (23503) - у періоду вже є записи доставок, спочатку видаліть їх
+    if (err && err.code === "23503") {
+      return res.status(409).json({ error: "У цього періоду вже є записи доставок - спочатку видаліть їх на сторінці «Ввід даних»" });
+    }
+    throw err;
+  }
 });
 
 export default router;

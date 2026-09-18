@@ -21,9 +21,26 @@ class NpBlockedError extends Error {}
 function toNpDate(isoDate: string | Date): string {
   // pg повертає DATE-колонки як об'єкт Date, а не рядок — обробляємо обидва випадки.
   // "2026-09-01" / Date(2026-09-01) -> "01.09.2026"
-  const iso = isoDate instanceof Date ? isoDate.toISOString() : String(isoDate);
-  const [y, m, d] = iso.slice(0, 10).split("-");
-  return `${d}.${m}.${y}`;
+  // ВАЖЛИВО: для Date беремо рік/місяць/день через getUTCFullYear/getUTCMonth/getUTCDate,
+  // а не текстовим розрізанням toISOString().slice(0,10) - якщо рік колись НЕ 4-значний
+  // (напр. зіпсовані дані з роком 20226), toISOString() видає розширений формат
+  // "+020226-09-15..." і фіксований slice(0,10) тихо ламався ("undefined.09.+020226"),
+  // через що синхронізація з НП валилась незрозумілою помилкою (18.09.2026).
+  let y: number, m: number, d: number;
+  if (isoDate instanceof Date) {
+    y = isoDate.getUTCFullYear();
+    m = isoDate.getUTCMonth() + 1;
+    d = isoDate.getUTCDate();
+  } else {
+    const [yy, mm, dd] = String(isoDate).slice(0, 10).split("-").map(Number);
+    y = yy;
+    m = mm;
+    d = dd;
+  }
+  if (!y || !m || !d || y < 2000 || y > 2100) {
+    throw new Error(`Некоректна дата періоду (${String(isoDate)}) - перевірте період у Довідниках`);
+  }
+  return `${String(d).padStart(2, "0")}.${String(m).padStart(2, "0")}.${y}`;
 }
 
 // НП, схоже, тримає ліміт швидкості не лише по ключу, а й сумарно з нашого сервера -

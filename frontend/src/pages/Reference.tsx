@@ -15,6 +15,7 @@ export default function Reference() {
   const [newMaterial, setNewMaterial] = useState({ code: "", name: "", unit: "" });
   const [newLine, setNewLine] = useState("");
   const [newPeriod, setNewPeriod] = useState({ date_from: "", date_to: "", label: "" });
+  const [periodMessage, setPeriodMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const PAGE_SIZE = 20;
   const [periodPage, setPeriodPage] = useState(1);
@@ -116,12 +117,26 @@ export default function Reference() {
     e.preventDefault();
     if (!newPeriod.date_from || !newPeriod.date_to || !newPeriod.label) return;
     setBusy(true);
+    setPeriodMessage(null);
     try {
       await api.post("/periods", newPeriod);
       setNewPeriod({ date_from: "", date_to: "", label: "" });
       await reload();
+    } catch (err) {
+      setPeriodMessage(err instanceof Error ? err.message : "Помилка збереження періоду");
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function deletePeriod(id: number) {
+    if (!window.confirm("Видалити цей період? Дію не можна скасувати.")) return;
+    setPeriodMessage(null);
+    try {
+      await api.del(`/periods/${id}`);
+      await reload();
+    } catch (err) {
+      setPeriodMessage(err instanceof Error ? err.message : "Помилка видалення періоду");
     }
   }
 
@@ -156,12 +171,24 @@ export default function Reference() {
             <button className="btn" disabled={busy}>Додати</button>
           </form>
         )}
+        {periodMessage && <p style={{ fontSize: 13, color: "var(--danger, #c0392b)" }}>{periodMessage}</p>}
         <div className="table-wrap">
           <table>
-            <thead><tr><th>Мітка</th><th>З</th><th>По</th></tr></thead>
+            <thead><tr><th>Мітка</th><th>З</th><th>По</th>{canEdit && <th>Дії</th>}</tr></thead>
             <tbody>
               {periodsPaged.pageItems.map((p) => (
-                <tr key={p.id}><td>{p.label}</td><td>{p.date_from.slice(0, 10)}</td><td>{p.date_to.slice(0, 10)}</td></tr>
+                <tr key={p.id}>
+                  <td>{p.label}</td>
+                  <td>{p.date_from.slice(0, 10)}</td>
+                  <td>{p.date_to.slice(0, 10)}</td>
+                  {canEdit && (
+                    <td>
+                      <button type="button" className="btn secondary" onClick={() => deletePeriod(p.id)}>
+                        Видалити
+                      </button>
+                    </td>
+                  )}
+                </tr>
               ))}
             </tbody>
           </table>
