@@ -23,8 +23,9 @@ function toNpDate(isoDate: string | Date): string {
 
 // НП, схоже, тримає ліміт швидкості не лише по ключу, а й сумарно з нашого сервера -
 // при 10+ ФОП, які синхронізуються паралельно, окремим ключам іноді не вистачало
-// колишніх 5 спроб (макс. очікування ~12.5с), тож збільшили запас спроб і
-// обмежили одну паузу згори, щоб довге очікування не приходилось одним стрибком.
+// колишньої 1 спроби. Робимо до 5 спроб з поступовим збільшенням паузи (обмеженою
+// згори), але НЕ більше - інакше при затяжному обмеженні з боку НП один запит
+// синхронізації може розтягнутись на кілька хвилин і сам почне "висіти" для юзера.
 async function npCall(apiKey: string, body: Record<string, unknown>, attempt = 1): Promise<any[]> {
   const res = await fetch(NP_URL, {
     method: "POST",
@@ -46,8 +47,8 @@ async function npCall(apiKey: string, body: Record<string, unknown>, attempt = 1
       `np-sync: НП повернула не-JSON (HTTP ${res.status}), спроба ${attempt}:`,
       rawText.slice(0, 300)
     );
-    if (attempt < 9) {
-      await sleep(Math.min(3000 * attempt, 20000));
+    if (attempt < 5) {
+      await sleep(Math.min(2500 * attempt, 10000));
       return npCall(apiKey, body, attempt + 1);
     }
     throw new Error(
@@ -56,8 +57,8 @@ async function npCall(apiKey: string, body: Record<string, unknown>, attempt = 1
   }
   if (!data.success) {
     const msg = (data.errors && data.errors.join(", ")) || JSON.stringify(data);
-    if (/too many requests/i.test(msg) && attempt < 9) {
-      await sleep(Math.min(2500 * attempt, 15000));
+    if (/too many requests/i.test(msg) && attempt < 5) {
+      await sleep(Math.min(2000 * attempt, 8000));
       return npCall(apiKey, body, attempt + 1);
     }
     throw new Error(msg);
@@ -253,7 +254,7 @@ async function runNpSync(req: express.Request, res: express.Response) {
   // запитів у першу секунду, який і провокував "too many requests" при 10+ ФОП.
   const outcomes = await Promise.allSettled(
     managers.map(async (m, i) => {
-      await sleep(i * 400);
+      await sleep(i * 200);
       return syncOneManager(m);
     })
   );
