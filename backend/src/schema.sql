@@ -112,11 +112,15 @@ CREATE TABLE IF NOT EXISTS deliveries (
     qty_packaging   INT NOT NULL DEFAULT 0,   -- "упаковка" — расход коробок за период
     box_type_id     INT REFERENCES box_types(id),  -- какой тип коробки использован для qty_packaging (для расчёта себестоимости/экономии)
     qty_packaging_free INT NOT NULL DEFAULT 0,  -- скільки з qty_packaging - б/у (безкоштовні, повторно використані), не рахуються у собівартість
+    qty_np_sender_paid    INT NOT NULL DEFAULT 0,  -- к-сть відправлень НП, де платник за доставку - відправник (ми), автосинк
+    qty_np_recipient_paid INT NOT NULL DEFAULT 0,  -- к-сть відправлень НП, де платник за доставку - отримувач (клієнт), автосинк
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
     UNIQUE (period_id, manager_id, channel_id, product_line_id)
 );
 ALTER TABLE deliveries ADD COLUMN IF NOT EXISTS qty_packaging_free INT NOT NULL DEFAULT 0;
+ALTER TABLE deliveries ADD COLUMN IF NOT EXISTS qty_np_sender_paid INT NOT NULL DEFAULT 0;
+ALTER TABLE deliveries ADD COLUMN IF NOT EXISTS qty_np_recipient_paid INT NOT NULL DEFAULT 0;
 
 CREATE INDEX IF NOT EXISTS idx_deliveries_period   ON deliveries(period_id);
 CREATE INDEX IF NOT EXISTS idx_deliveries_channel  ON deliveries(channel_id);

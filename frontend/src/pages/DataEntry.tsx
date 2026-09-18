@@ -419,7 +419,12 @@ export default function DataEntry() {
                             </span>
                           ) : (
                             <div>
-                              <strong>{d.manager_name} — розбивка коробок за декаду ({d.period_label}):</strong>
+                              <strong>{d.manager_name} — розбивка за декаду ({d.period_label}):</strong>
+                              <p style={{ margin: "4px 0" }}>
+                                Всього відправлень: <strong>{d.qty_shipped}</strong>
+                                {" "}(за наш рахунок: {d.qty_np_sender_paid ?? 0}, за рахунок клієнта: {d.qty_np_recipient_paid ?? 0}); повернень: {d.qty_returned}
+                              </p>
+                              <div style={{ fontWeight: 600, marginTop: 8 }}>Коробки за типами:</div>
                               <ul style={{ margin: "4px 0 0", paddingLeft: 20 }}>
                                 {(boxUsageByDelivery[d.id] as DeliveryBoxUsage[]).map((u) => (
                                   <li key={u.box_type_id}>

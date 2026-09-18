@@ -54,6 +54,12 @@ router.post("/deliveries", requireEditor, async (req, res) => {
     qty_packaging = 0,
     box_type_id = null,
     qty_packaging_free = 0,
+    // Ці два поля пише лише автосинк з Нової Пошти (розбивка "за наш рахунок" / "за
+    // рахунок клієнта") — форма ручного вводу їх не показує і не надсилає, тож при
+    // ручному збереженні запису не повинні обнулятись. Тому null тут означає
+    // "не чіпати", а не "скинути в 0" (COALESCE у ON CONFLICT нижче).
+    qty_np_sender_paid = null,
+    qty_np_recipient_paid = null,
   } = req.body;
 
   if (!period_id || !manager_id || !channel_id || !product_line_id) {
@@ -63,8 +69,9 @@ router.post("/deliveries", requireEditor, async (req, res) => {
   const { rows } = await pool.query(
     `INSERT INTO deliveries
        (period_id, manager_id, channel_id, product_line_id,
-        qty_shipped, amount_uah, qty_returned, qty_damaged, qty_packaging, box_type_id, qty_packaging_free, updated_at)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11, now())
+        qty_shipped, amount_uah, qty_returned, qty_damaged, qty_packaging, box_type_id, qty_packaging_free,
+        qty_np_sender_paid, qty_np_recipient_paid, updated_at)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11, COALESCE($12,0), COALESCE($13,0), now())
      ON CONFLICT (period_id, manager_id, channel_id, product_line_id)
      DO UPDATE SET
         qty_shipped = EXCLUDED.qty_shipped,
@@ -74,9 +81,11 @@ router.post("/deliveries", requireEditor, async (req, res) => {
         qty_packaging = EXCLUDED.qty_packaging,
         box_type_id = EXCLUDED.box_type_id,
         qty_packaging_free = EXCLUDED.qty_packaging_free,
+        qty_np_sender_paid = COALESCE($12, deliveries.qty_np_sender_paid),
+        qty_np_recipient_paid = COALESCE($13, deliveries.qty_np_recipient_paid),
         updated_at = now()
      RETURNING *`,
-    [period_id, manager_id, channel_id, product_line_id, qty_shipped, amount_uah, qty_returned, qty_damaged, qty_packaging, box_type_id, qty_packaging_free]
+    [period_id, manager_id, channel_id, product_line_id, qty_shipped, amount_uah, qty_returned, qty_damaged, qty_packaging, box_type_id, qty_packaging_free, qty_np_sender_paid, qty_np_recipient_paid]
   );
   res.status(201).json(rows[0]);
 });

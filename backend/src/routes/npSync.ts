@@ -150,6 +150,10 @@ async function runNpSync(req: express.Request, res: express.Response) {
       byBox[btId] = (byBox[btId] || 0) + 1;
     }
     const returnedCount = docs.filter((d) => d.StateName === "Відмова від отримання").length;
+    // PayerType з НП: "Sender" - за доставку платимо ми (бізнес), "Recipient" - платить клієнт
+    // (накладений платіж/наложка). Рахуємо, скільки відправлень кожного типу за період.
+    const senderPaidCount = docs.filter((d) => d.PayerType === "Sender").length;
+    const recipientPaidCount = docs.filter((d) => d.PayerType === "Recipient").length;
 
     const client = await pool.connect();
     try {
@@ -171,10 +175,13 @@ async function runNpSync(req: express.Request, res: express.Response) {
       const dominant = Object.entries(byBox).sort((a, b) => b[1] - a[1])[0];
       const totalQty = docs.length;
       if (dominant) {
+        // qty_shipped теж підтягуємо з НП (загальна к-сть відправлень за декаду) -
+        // раніше це поле лишалося ручним і "розʼїжджалося" з синхронізованою Упаковкою.
         const { rowCount } = await client.query(
-          `UPDATE deliveries SET qty_packaging = $1, box_type_id = $2, qty_returned = $3, updated_at = now()
+          `UPDATE deliveries SET qty_packaging = $1, box_type_id = $2, qty_returned = $3,
+              qty_shipped = $6, qty_np_sender_paid = $7, qty_np_recipient_paid = $8, updated_at = now()
            WHERE id = (SELECT MIN(id) FROM deliveries WHERE period_id = $4 AND manager_id = $5)`,
-          [totalQty, Number(dominant[0]), returnedCount, period_id, m.id]
+          [totalQty, Number(dominant[0]), returnedCount, period_id, m.id, totalQty, senderPaidCount, recipientPaidCount]
         );
         // Немає жодного запису доставки для цього ФОП+періоду (напр. щойно обраний
         // новий період, куди ще ніхто нічого не вносив вручну) — створюємо сам.
@@ -188,14 +195,18 @@ async function runNpSync(req: express.Request, res: express.Response) {
           }
           await client.query(
             `INSERT INTO deliveries
-               (period_id, manager_id, channel_id, product_line_id, qty_packaging, box_type_id, qty_returned, updated_at)
-             VALUES ($1,$2,$3,$4,$5,$6,$7, now())
+               (period_id, manager_id, channel_id, product_line_id, qty_packaging, box_type_id, qty_returned,
+                qty_shipped, qty_np_sender_paid, qty_np_recipient_paid, updated_at)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, now())
              ON CONFLICT (period_id, manager_id, channel_id, product_line_id) DO UPDATE SET
                 qty_packaging = EXCLUDED.qty_packaging,
                 box_type_id = EXCLUDED.box_type_id,
                 qty_returned = EXCLUDED.qty_returned,
+                qty_shipped = EXCLUDED.qty_shipped,
+                qty_np_sender_paid = EXCLUDED.qty_np_sender_paid,
+                qty_np_recipient_paid = EXCLUDED.qty_np_recipient_paid,
                 updated_at = now()`,
-            [period_id, m.id, m.default_channel_id, defaultProductLineId, totalQty, Number(dominant[0]), returnedCount]
+            [period_id, m.id, m.default_channel_id, defaultProductLineId, totalQty, Number(dominant[0]), returnedCount, totalQty, senderPaidCount, recipientPaidCount]
           );
         }
       }
@@ -207,7 +218,9 @@ async function runNpSync(req: express.Request, res: express.Response) {
       client.release();
     }
 
-    result.synced.push(`${m.name} (${docs.length} відправлень, повернень: ${returnedCount})`);
+    result.synced.push(
+      `${m.name} (${docs.length} відправлень: за наш рахунок ${senderPaidCount}, за рахунок клієнта ${recipientPaidCount}; повернень: ${returnedCount})`
+    );
   }
 
   const outcomes = await Promise.allSettled(managers.map((m) => syncOneManager(m)));
