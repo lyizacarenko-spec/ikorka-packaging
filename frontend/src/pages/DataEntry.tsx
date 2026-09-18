@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { api } from "../api";
 import { useReferenceData } from "../useReferenceData";
 import type { Delivery, DeliveryBoxUsage } from "../types";
@@ -54,6 +54,83 @@ export default function DataEntry() {
   }, [filterPeriod]);
 
   const { pageCount, pageItems: pagedDeliveries } = paginate(deliveries, page, PAGE_SIZE);
+
+  // Підсумки по сегменту (ХБ/ГБ) внизу таблиці - не по кожному ФОП окремо,
+  // а загальні цифри за обраний фільтр періоду.
+  const num = (v: string | number | null | undefined) => Number(v ?? 0) || 0;
+  const channelTotals = useMemo(() => {
+    const map = new Map<
+      string,
+      {
+        channel_code: string;
+        qty_shipped: number;
+        amount_uah: number;
+        qty_returned: number;
+        qty_damaged: number;
+        qty_packaging: number;
+        qty_packaging_free: number;
+        own_packaging_cost: number;
+        np_equivalent_cost: number;
+        savings_uah: number;
+      }
+    >();
+    for (const d of deliveries) {
+      const key = d.channel_code;
+      if (!map.has(key)) {
+        map.set(key, {
+          channel_code: key,
+          qty_shipped: 0,
+          amount_uah: 0,
+          qty_returned: 0,
+          qty_damaged: 0,
+          qty_packaging: 0,
+          qty_packaging_free: 0,
+          own_packaging_cost: 0,
+          np_equivalent_cost: 0,
+          savings_uah: 0,
+        });
+      }
+      const t = map.get(key)!;
+      t.qty_shipped += num(d.qty_shipped);
+      t.amount_uah += num(d.amount_uah);
+      t.qty_returned += num(d.qty_returned);
+      t.qty_damaged += num(d.qty_damaged);
+      t.qty_packaging += num(d.qty_packaging);
+      t.qty_packaging_free += num(d.qty_packaging_free);
+      t.own_packaging_cost += num(d.own_packaging_cost);
+      t.np_equivalent_cost += num(d.np_equivalent_cost);
+      t.savings_uah += num(d.savings_uah);
+    }
+    return Array.from(map.values());
+  }, [deliveries]);
+  const grandTotal = useMemo(
+    () =>
+      channelTotals.reduce(
+        (acc, t) => ({
+          qty_shipped: acc.qty_shipped + t.qty_shipped,
+          amount_uah: acc.amount_uah + t.amount_uah,
+          qty_returned: acc.qty_returned + t.qty_returned,
+          qty_damaged: acc.qty_damaged + t.qty_damaged,
+          qty_packaging: acc.qty_packaging + t.qty_packaging,
+          qty_packaging_free: acc.qty_packaging_free + t.qty_packaging_free,
+          own_packaging_cost: acc.own_packaging_cost + t.own_packaging_cost,
+          np_equivalent_cost: acc.np_equivalent_cost + t.np_equivalent_cost,
+          savings_uah: acc.savings_uah + t.savings_uah,
+        }),
+        {
+          qty_shipped: 0,
+          amount_uah: 0,
+          qty_returned: 0,
+          qty_damaged: 0,
+          qty_packaging: 0,
+          qty_packaging_free: 0,
+          own_packaging_cost: 0,
+          np_equivalent_cost: 0,
+          savings_uah: 0,
+        }
+      ),
+    [channelTotals]
+  );
 
   function update(field: keyof typeof form, value: string) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -445,6 +522,40 @@ export default function DataEntry() {
                   <td colSpan={13} style={{ color: "var(--text-muted)" }}>
                     Немає записів.
                   </td>
+                </tr>
+              )}
+              {channelTotals.length > 0 &&
+                channelTotals.map((t) => (
+                  <tr
+                    key={`total-${t.channel_code}`}
+                    style={{ fontWeight: 600, background: "var(--bg-muted, #f0f0f3)", borderTop: "2px solid var(--border, #ddd)" }}
+                  >
+                    <td colSpan={4}>Разом {t.channel_code}</td>
+                    <td>{t.qty_shipped}</td>
+                    <td>{t.amount_uah.toFixed(2)}</td>
+                    <td>{t.qty_returned}</td>
+                    <td>{t.qty_damaged}</td>
+                    <td>{t.qty_packaging}</td>
+                    <td>{t.qty_packaging_free}</td>
+                    <td>{t.own_packaging_cost.toFixed(2)}</td>
+                    <td>{t.np_equivalent_cost.toFixed(2)}</td>
+                    <td className={t.savings_uah >= 0 ? "positive" : "negative"}>{t.savings_uah.toFixed(2)}</td>
+                    <td></td>
+                  </tr>
+                ))}
+              {channelTotals.length > 1 && (
+                <tr style={{ fontWeight: 700, background: "var(--bg-muted, #e2e2e8)", borderTop: "2px solid var(--border, #ccc)" }}>
+                  <td colSpan={4}>Загалом</td>
+                  <td>{grandTotal.qty_shipped}</td>
+                  <td>{grandTotal.amount_uah.toFixed(2)}</td>
+                  <td>{grandTotal.qty_returned}</td>
+                  <td>{grandTotal.qty_damaged}</td>
+                  <td>{grandTotal.qty_packaging}</td>
+                  <td>{grandTotal.qty_packaging_free}</td>
+                  <td>{grandTotal.own_packaging_cost.toFixed(2)}</td>
+                  <td>{grandTotal.np_equivalent_cost.toFixed(2)}</td>
+                  <td className={grandTotal.savings_uah >= 0 ? "positive" : "negative"}>{grandTotal.savings_uah.toFixed(2)}</td>
+                  <td></td>
                 </tr>
               )}
             </tbody>
