@@ -348,36 +348,38 @@ router.post("/stock/bulk-import/undo", requireEditor, async (req, res) => {
     await client.query("BEGIN");
 
     const { rows: batchMovements } = await client.query(
-      `SELECT * FROM stock_movements WHERE note = $1 ORDER BY movement_date DESC, id DESC`,
+      `SELECT * FROM stock_movements WHERE note = $1`,
       [note]
     );
 
     let deletedCount = 0;
+    const affectedKeys = new Set<string>();
     if (batchMovements.length) {
-      const byKey = new Map<string, typeof batchMovements>();
       for (const m of batchMovements) {
-        const key = `${m.item_type}:${m.box_type_id ?? "-"}:${m.material_id ?? "-"}`;
-        if (!byKey.has(key)) byKey.set(key, []);
-        byKey.get(key)!.push(m);
+        affectedKeys.add(`${m.item_type}:${m.box_type_id ?? "-"}:${m.material_id ?? "-"}`);
       }
-      for (const [, list] of byKey) {
-        for (const m of list) {
-          const { rows: latestRows } = await client.query(
-            `SELECT id FROM stock_movements
-             WHERE item_type = $1 AND COALESCE(box_type_id,-1) = COALESCE($2,-1) AND COALESCE(material_id,-1) = COALESCE($3,-1)
-             ORDER BY movement_date DESC, id DESC LIMIT 1`,
-            [m.item_type, m.box_type_id, m.material_id]
-          );
-          if (!latestRows.length || latestRows[0].id !== m.id) {
-            throw Object.assign(
-              new Error(
-                `Не можу відкотити: по позиції (${m.item_type}, box=${m.box_type_id ?? "-"}, material=${m.material_id ?? "-"}) вже є новіші рухи поза цим імпортом. Видаліть їх вручну через «Історію рухів», починаючи з найновішого, потім повторіть відкат.`
-              ),
-              { status: 409 }
-            );
-          }
-          await client.query("DELETE FROM stock_movements WHERE id = $1", [m.id]);
-          deletedCount++;
+
+      // Видаляємо рухи цієї партії (у будь-якій позиції в хронології позиції,
+      // не лише останні) і одразу перераховуємо залишки для решти рухів
+      // по кожній зачепленій позиції - так коректно, навіть якщо після імпорту
+      // по цій позиції вже були інші, реальні рухи (напр. вересневі).
+      await client.query("DELETE FROM stock_movements WHERE note = $1", [note]);
+      deletedCount = batchMovements.length;
+
+      for (const key of affectedKeys) {
+        const [item_type, boxRaw, matRaw] = key.split(":");
+        const box_type_id = boxRaw === "-" ? null : Number(boxRaw);
+        const material_id = matRaw === "-" ? null : Number(matRaw);
+        const { rows: remaining } = await client.query(
+          `SELECT id, operation, qty FROM stock_movements
+           WHERE item_type = $1 AND COALESCE(box_type_id,-1) = COALESCE($2,-1) AND COALESCE(material_id,-1) = COALESCE($3,-1)
+           ORDER BY movement_date ASC, id ASC`,
+          [item_type, box_type_id, material_id]
+        );
+        let running = 0;
+        for (const r of remaining) {
+          running += r.operation === "расход" ? -Number(r.qty) : Number(r.qty);
+          await client.query(`UPDATE stock_movements SET balance_after = $1 WHERE id = $2`, [running, r.id]);
         }
       }
     }
@@ -385,7 +387,7 @@ router.post("/stock/bulk-import/undo", requireEditor, async (req, res) => {
     const { rowCount: purchRowCount } = await client.query("DELETE FROM material_purchases WHERE note = $1", [note]);
 
     await client.query("COMMIT");
-    res.json({ deleted_movements: deletedCount, deleted_purchases: purchRowCount ?? 0 });
+    res.json({ deleted_movements: deletedCount, deleted_purchases: purchRowCount ?? 0, recomputed_positions: affectedKeys.size });
   } catch (err: any) {
     await client.query("ROLLBACK");
     if (err && err.status) return res.status(err.status).json({ error: err.message });

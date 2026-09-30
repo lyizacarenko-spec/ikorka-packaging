@@ -145,10 +145,20 @@ export default function StockBulkImport({
     const text = e.clipboardData.getData("text");
     // Розбиваємо і по рядках, і по табах, зберігаючи порожні клітинки (щоб не зсунути дні) -
     // саме так виглядає діапазон, скопійований з Google Таблиць у буфер обміну.
-    const flat = text
+    let flat = text
       .split(/\r?\n/)
       .flatMap((line) => line.split("\t"))
       .map((v) => v.trim());
+    // Якщо це не табличний вставка (наприклад, просто рядок чисел через кому/пробіл,
+    // скопійований з чату) - пробуємо розібрати і так; порожні дні тут пропустити не можна,
+    // тому позиції з такого рядка йдуть підряд від startIdx без пропусків.
+    if (flat.length <= 1 && /[,\s]/.test(text.trim())) {
+      flat = text
+        .trim()
+        .split(/[,\s]+/)
+        .map((v) => v.trim())
+        .filter((v) => v.length > 0);
+    }
     if (flat.length <= 1) return; // одне число - нехай вставиться звичайним чином
     e.preventDefault();
     setRows((r) =>
