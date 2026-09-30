@@ -136,8 +136,10 @@ CREATE TABLE IF NOT EXISTS material_purchases (
     supplier        TEXT,
     price           NUMERIC(10,2) NOT NULL,
     qty             NUMERIC(10,2) NOT NULL,
-    amount          NUMERIC(12,2) NOT NULL
+    amount          NUMERIC(12,2) NOT NULL,
+    note            TEXT  -- напр. тег партії масового імпорту складу, щоб можна було відкотити
 );
+ALTER TABLE material_purchases ADD COLUMN IF NOT EXISTS note TEXT;
 
 -- ------------------------------------------------------------
 -- СКЛАД: ДВИЖЕНИЕ КОРОБОК И МАТЕРИАЛОВ

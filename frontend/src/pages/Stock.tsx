@@ -4,6 +4,7 @@ import type { StockBalance, StockMovement } from "../types";
 import { useReferenceData } from "../useReferenceData";
 import { useAuth } from "../AuthContext";
 import { Pager, paginate } from "../Pager";
+import StockBulkImport from "./StockBulkImport";
 
 export default function Stock() {
   const { boxTypes, materials, loading: refLoading } = useReferenceData();
@@ -113,6 +114,8 @@ export default function Stock() {
           </table>
         </div>
       </div>
+
+      {canEdit && <StockBulkImport boxTypes={boxTypes} materials={materials} onDone={loadAll} />}
 
       {canEdit && (
         <div className="card">

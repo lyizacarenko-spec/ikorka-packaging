@@ -131,4 +131,268 @@ router.delete("/stock/movements/:id", requireEditor, async (req, res) => {
   res.status(204).end();
 });
 
+router.delete("/material-purchases/:id", requireEditor, async (req, res) => {
+  const { rowCount } = await pool.query("DELETE FROM material_purchases WHERE id = $1", [req.params.id]);
+  if (!rowCount) return res.status(404).json({ error: "Не знайдено" });
+  res.status(204).end();
+});
+
+// ============================================================
+// МАСОВИЙ ІМПОРТ СКЛАДУ (щомісячна таблиця з Google Таблиць):
+// одним запитом заводимо перенос залишку, прихід/повернення/щоденний
+// розхід (кожен день окремим рухом для точності) + закупівлі матеріалів.
+// commit=false — «суха прогонка»: усе рахується і відкочується (ROLLBACK),
+// повертається лише звіт для звірки з таблицею перед реальним збереженням.
+// ============================================================
+
+function slugifyCode(name: string): string {
+  const translit: Record<string, string> = {
+    а: "a", б: "b", в: "v", г: "h", ґ: "g", д: "d", е: "e", є: "ie", ж: "zh", з: "z",
+    и: "y", і: "i", ї: "i", й: "i", к: "k", л: "l", м: "m", н: "n", о: "o", п: "p",
+    р: "r", с: "s", т: "t", у: "u", ф: "f", х: "kh", ц: "ts", ч: "ch", ш: "sh", щ: "shch",
+    ь: "", ю: "iu", я: "ia", ъ: "", ы: "y", э: "e",
+  };
+  let out = "";
+  for (const ch of name.toLowerCase()) {
+    if (translit[ch] !== undefined) out += translit[ch];
+    else if (/[a-z0-9]/.test(ch)) out += ch;
+    else out += "_";
+  }
+  out = out.replace(/_+/g, "_").replace(/^_|_$/g, "");
+  return out || "item";
+}
+
+interface BulkImportEvent {
+  date: string;
+  operation: "приход" | "возврат" | "расход";
+  qty: number;
+}
+
+interface BulkImportItem {
+  item_type: "box" | "material";
+  box_type_id?: number | null;
+  material_id?: number | null;
+  new_name?: string;
+  carryover?: number;
+  carryover_date?: string;
+  incoming?: { date: string; qty: number }[];
+  returns?: { date: string; qty: number }[];
+  daily?: { date: string; qty: number }[];
+  purchases?: { date: string; supplier?: string; qty: number; amount: number }[];
+  expected_total_out?: number;
+  expected_remainder?: number;
+}
+
+router.post("/stock/bulk-import", requireEditor, async (req, res) => {
+  const { commit, note, items } = req.body as { commit?: boolean; note?: string; items?: BulkImportItem[] };
+  if (!note || !Array.isArray(items) || !items.length) {
+    return res.status(400).json({ error: "note та items обов'язкові" });
+  }
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    const summary: Record<string, unknown>[] = [];
+
+    for (const item of items) {
+      if (item.item_type !== "box" && item.item_type !== "material") {
+        throw Object.assign(new Error("item_type має бути box або material"), { status: 400 });
+      }
+
+      let boxTypeId: number | null = item.item_type === "box" ? item.box_type_id ?? null : null;
+      let materialId: number | null = item.item_type === "material" ? item.material_id ?? null : null;
+      let createdNew = false;
+      let resolvedName = "";
+
+      const table = item.item_type === "box" ? "box_types" : "materials";
+      const idVar = item.item_type === "box" ? boxTypeId : materialId;
+
+      if (!idVar) {
+        if (!item.new_name || !item.new_name.trim()) {
+          throw Object.assign(new Error(`Вкажіть ${item.item_type === "box" ? "box_type_id" : "material_id"} або new_name`), { status: 400 });
+        }
+        const { rows: existing } = await client.query(`SELECT id, name FROM ${table} WHERE lower(name) = lower($1)`, [item.new_name.trim()]);
+        if (existing.length) {
+          if (item.item_type === "box") boxTypeId = existing[0].id;
+          else materialId = existing[0].id;
+          resolvedName = existing[0].name;
+        } else {
+          let code = slugifyCode(item.new_name);
+          let suffix = 0;
+          // eslint-disable-next-line no-constant-condition
+          while (true) {
+            const c = suffix ? `${code}_${suffix}` : code;
+            const { rows: clash } = await client.query(`SELECT 1 FROM ${table} WHERE code = $1`, [c]);
+            if (!clash.length) { code = c; break; }
+            suffix++;
+          }
+          const insertSql =
+            item.item_type === "box"
+              ? `INSERT INTO box_types (code, name, weight_kg) VALUES ($1,$2,NULL) RETURNING id, name`
+              : `INSERT INTO materials (code, name, unit) VALUES ($1,$2,'шт') RETURNING id, name`;
+          const { rows: created } = await client.query(insertSql, [code, item.new_name.trim()]);
+          if (item.item_type === "box") boxTypeId = created[0].id;
+          else materialId = created[0].id;
+          resolvedName = created[0].name;
+          createdNew = true;
+        }
+      } else {
+        const { rows } = await client.query(`SELECT name FROM ${table} WHERE id = $1`, [idVar]);
+        resolvedName = rows[0]?.name ?? `#${idVar}`;
+      }
+
+      const events: BulkImportEvent[] = [];
+      const fallbackDate = item.incoming?.[0]?.date || item.daily?.[0]?.date || item.returns?.[0]?.date;
+      if (item.carryover != null && Number(item.carryover) !== 0) {
+        if (!item.carryover_date && !fallbackDate) {
+          throw Object.assign(new Error(`Позиція "${item.new_name || resolvedName}": для переносу залишку потрібна дата (carryover_date) або хоча б одна інша подія`), { status: 400 });
+        }
+        events.push({ date: item.carryover_date || fallbackDate!, operation: "приход", qty: Number(item.carryover) });
+      }
+      for (const e of item.incoming ?? []) if (Number(e.qty)) events.push({ date: e.date, operation: "приход", qty: Number(e.qty) });
+      for (const e of item.returns ?? []) if (Number(e.qty)) events.push({ date: e.date, operation: "возврат", qty: Number(e.qty) });
+      for (const e of item.daily ?? []) if (Number(e.qty)) events.push({ date: e.date, operation: "расход", qty: Number(e.qty) });
+
+      const opRank: Record<string, number> = { "приход": 0, "возврат": 0, "расход": 1 };
+      events.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : opRank[a.operation] - opRank[b.operation]));
+
+      let totalIncoming = 0, totalReturns = 0, totalOut = 0, movementsCount = 0;
+
+      for (const ev of events) {
+        const { rows: balRows } = await client.query(
+          `SELECT balance_after FROM stock_movements
+           WHERE item_type = $1 AND COALESCE(box_type_id,-1) = COALESCE($2,-1) AND COALESCE(material_id,-1) = COALESCE($3,-1)
+           ORDER BY movement_date DESC, id DESC LIMIT 1`,
+          [item.item_type, boxTypeId, materialId]
+        );
+        const prevBalance = balRows.length ? Number(balRows[0].balance_after) : 0;
+        const delta = ev.operation === "расход" ? -ev.qty : ev.qty;
+        const balance_after = prevBalance + delta;
+        await client.query(
+          `INSERT INTO stock_movements (item_type, box_type_id, material_id, movement_date, operation, qty, balance_after, note)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
+          [item.item_type, boxTypeId, materialId, ev.date, ev.operation, ev.qty, balance_after, note]
+        );
+        movementsCount++;
+        if (ev.operation === "приход") totalIncoming += ev.qty;
+        else if (ev.operation === "возврат") totalReturns += ev.qty;
+        else totalOut += ev.qty;
+      }
+
+      const { rows: finalRows } = await client.query(
+        `SELECT balance_after FROM stock_movements
+         WHERE item_type = $1 AND COALESCE(box_type_id,-1) = COALESCE($2,-1) AND COALESCE(material_id,-1) = COALESCE($3,-1)
+         ORDER BY movement_date DESC, id DESC LIMIT 1`,
+        [item.item_type, boxTypeId, materialId]
+      );
+      const finalBalance = finalRows.length ? Number(finalRows[0].balance_after) : 0;
+
+      let purchasesTotalQty = 0, purchasesTotalAmount = 0;
+      if (item.item_type === "material" && item.purchases?.length) {
+        for (const p of item.purchases) {
+          if (!p.qty || !p.amount) continue;
+          const price = Math.round((Number(p.amount) / Number(p.qty)) * 100) / 100;
+          await client.query(
+            `INSERT INTO material_purchases (material_id, purchase_date, supplier, price, qty, amount, note)
+             VALUES ($1,$2,$3,$4,$5,$6,$7)`,
+            [materialId, p.date, p.supplier ?? null, price, p.qty, p.amount, note]
+          );
+          purchasesTotalQty += Number(p.qty);
+          purchasesTotalAmount += Number(p.amount);
+        }
+      }
+
+      summary.push({
+        item_type: item.item_type,
+        box_type_id: boxTypeId,
+        material_id: materialId,
+        name: resolvedName,
+        created_new: createdNew,
+        movements_count: movementsCount,
+        carryover: item.carryover ?? 0,
+        total_incoming: totalIncoming,
+        total_returns: totalReturns,
+        total_out: totalOut,
+        final_balance: finalBalance,
+        expected_total_out: item.expected_total_out ?? null,
+        diff_total_out: item.expected_total_out != null ? Math.round((totalOut - Number(item.expected_total_out)) * 100) / 100 : null,
+        expected_remainder: item.expected_remainder ?? null,
+        diff_remainder: item.expected_remainder != null ? Math.round((finalBalance - Number(item.expected_remainder)) * 100) / 100 : null,
+        purchases_total_qty: purchasesTotalQty,
+        purchases_total_amount: purchasesTotalAmount,
+      });
+    }
+
+    if (commit) {
+      await client.query("COMMIT");
+    } else {
+      await client.query("ROLLBACK");
+    }
+    res.json({ committed: !!commit, note, items: summary });
+  } catch (err: any) {
+    await client.query("ROLLBACK");
+    if (err && err.status) return res.status(err.status).json({ error: err.message });
+    throw err;
+  } finally {
+    client.release();
+  }
+});
+
+// Відкат партії масового імпорту складу (за точним текстом примітки/тегу)
+router.post("/stock/bulk-import/undo", requireEditor, async (req, res) => {
+  const { note } = req.body as { note?: string };
+  if (!note) return res.status(400).json({ error: "note обов'язковий" });
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+
+    const { rows: batchMovements } = await client.query(
+      `SELECT * FROM stock_movements WHERE note = $1 ORDER BY movement_date DESC, id DESC`,
+      [note]
+    );
+
+    let deletedCount = 0;
+    if (batchMovements.length) {
+      const byKey = new Map<string, typeof batchMovements>();
+      for (const m of batchMovements) {
+        const key = `${m.item_type}:${m.box_type_id ?? "-"}:${m.material_id ?? "-"}`;
+        if (!byKey.has(key)) byKey.set(key, []);
+        byKey.get(key)!.push(m);
+      }
+      for (const [, list] of byKey) {
+        for (const m of list) {
+          const { rows: latestRows } = await client.query(
+            `SELECT id FROM stock_movements
+             WHERE item_type = $1 AND COALESCE(box_type_id,-1) = COALESCE($2,-1) AND COALESCE(material_id,-1) = COALESCE($3,-1)
+             ORDER BY movement_date DESC, id DESC LIMIT 1`,
+            [m.item_type, m.box_type_id, m.material_id]
+          );
+          if (!latestRows.length || latestRows[0].id !== m.id) {
+            throw Object.assign(
+              new Error(
+                `Не можу відкотити: по позиції (${m.item_type}, box=${m.box_type_id ?? "-"}, material=${m.material_id ?? "-"}) вже є новіші рухи поза цим імпортом. Видаліть їх вручну через «Історію рухів», починаючи з найновішого, потім повторіть відкат.`
+              ),
+              { status: 409 }
+            );
+          }
+          await client.query("DELETE FROM stock_movements WHERE id = $1", [m.id]);
+          deletedCount++;
+        }
+      }
+    }
+
+    const { rowCount: purchRowCount } = await client.query("DELETE FROM material_purchases WHERE note = $1", [note]);
+
+    await client.query("COMMIT");
+    res.json({ deleted_movements: deletedCount, deleted_purchases: purchRowCount ?? 0 });
+  } catch (err: any) {
+    await client.query("ROLLBACK");
+    if (err && err.status) return res.status(err.status).json({ error: err.message });
+    throw err;
+  } finally {
+    client.release();
+  }
+});
+
 export default router;
