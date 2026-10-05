@@ -111,6 +111,64 @@ router.get("/reports/box-usage-monthly", async (_req, res) => {
   res.json(rows);
 });
 
+// Прогноз закупівлі на місяць: скільки грошей треба підготувати, виходячи
+// з темпу розходу (середній денний розхід за весь наявний період рухів),
+// за вирахуванням того, що вже є в залишку.
+router.get("/reports/procurement-forecast", async (req, res) => {
+  // За замовчуванням - наступний календарний місяць від сьогодні.
+  let targetMonth = String(req.query.month || "");
+  if (!/^\d{4}-\d{2}$/.test(targetMonth)) {
+    const now = new Date();
+    const next = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    targetMonth = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, "0")}`;
+  }
+  const [ty, tm] = targetMonth.split("-").map(Number);
+  const daysInTargetMonth = new Date(ty, tm, 0).getDate();
+
+  const { rows } = await pool.query(
+    `
+    WITH rate AS (
+      SELECT item_type, box_type_id, material_id,
+             SUM(qty) AS total_qty,
+             (MAX(movement_date) - MIN(movement_date) + 1) AS days_span
+      FROM stock_movements
+      WHERE operation = 'расход'
+      GROUP BY 1, 2, 3
+    ),
+    priced AS (
+      SELECT
+        r.item_type, r.box_type_id, r.material_id,
+        COALESCE(bt.name, mt.name) AS name,
+        ROUND(r.total_qty::numeric / NULLIF(r.days_span, 0), 3) AS daily_rate,
+        COALESCE(b.current_balance, 0) AS current_balance,
+        COALESCE(
+          (SELECT price FROM box_prices WHERE box_type_id = r.box_type_id ORDER BY valid_from DESC LIMIT 1),
+          (SELECT price FROM material_prices WHERE material_id = r.material_id ORDER BY valid_from DESC LIMIT 1)
+        ) AS price
+      FROM rate r
+      LEFT JOIN box_types bt ON bt.id = r.box_type_id
+      LEFT JOIN materials mt ON mt.id = r.material_id
+      LEFT JOIN v_stock_balance b
+        ON b.item_type = r.item_type
+       AND COALESCE(b.box_type_id, -1) = COALESCE(r.box_type_id, -1)
+       AND COALESCE(b.material_id, -1) = COALESCE(r.material_id, -1)
+    )
+    SELECT
+      item_type, box_type_id, material_id, name, daily_rate, current_balance, price,
+      ROUND(daily_rate * $1, 2) AS projected_need,
+      GREATEST(ROUND(daily_rate * $1 - current_balance, 2), 0) AS to_buy,
+      ROUND(GREATEST(daily_rate * $1 - current_balance, 0) * COALESCE(price, 0), 2) AS cost_uah,
+      (price IS NULL) AS price_missing
+    FROM priced
+    ORDER BY name
+    `,
+    [daysInTargetMonth]
+  );
+
+  const total_cost_uah = rows.reduce((s, r) => s + Number(r.cost_uah || 0), 0);
+  res.json({ target_month: targetMonth, days_in_target_month: daysInTargetMonth, items: rows, total_cost_uah: Math.round(total_cost_uah * 100) / 100 });
+});
+
 // Small dashboard summary: current month totals + YTD savings
 router.get("/reports/summary", async (_req, res) => {
   const { rows: monthRows } = await pool.query(

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
-import type { MonthlySummary, AnnualSummary, PackagingCostPerOrder, BoxUsageMonthly } from "../types";
+import type { MonthlySummary, AnnualSummary, PackagingCostPerOrder, BoxUsageMonthly, ProcurementForecast } from "../types";
 import { Pager, paginate } from "../Pager";
 
 function fmtMonth(m: string) {
@@ -12,11 +12,14 @@ function fmtYear(y: string) {
 }
 
 export default function Reports() {
-  const [tab, setTab] = useState<"monthly" | "annual" | "cost-per-order" | "box-usage">("monthly");
+  const [tab, setTab] = useState<"monthly" | "annual" | "cost-per-order" | "box-usage" | "forecast">("monthly");
   const [monthly, setMonthly] = useState<MonthlySummary[]>([]);
   const [annual, setAnnual] = useState<AnnualSummary[]>([]);
   const [costPerOrder, setCostPerOrder] = useState<PackagingCostPerOrder[]>([]);
   const [boxUsage, setBoxUsage] = useState<BoxUsageMonthly[]>([]);
+  const [forecast, setForecast] = useState<ProcurementForecast | null>(null);
+  const [forecastMonth, setForecastMonth] = useState<string>("");
+  const [forecastLoading, setForecastLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 20;
@@ -27,14 +30,27 @@ export default function Reports() {
       api.get<AnnualSummary[]>("/reports/annual"),
       api.get<PackagingCostPerOrder[]>("/reports/packaging-cost-per-order"),
       api.get<BoxUsageMonthly[]>("/reports/box-usage-monthly"),
-    ]).then(([m, a, c, b]) => {
+      api.get<ProcurementForecast>("/reports/procurement-forecast"),
+    ]).then(([m, a, c, b, f]) => {
       setMonthly(m);
       setAnnual(a);
       setCostPerOrder(c);
       setBoxUsage(b);
+      setForecast(f);
+      setForecastMonth(f.target_month);
       setLoading(false);
     });
   }, []);
+
+  async function loadForecast(month: string) {
+    setForecastLoading(true);
+    try {
+      const f = await api.get<ProcurementForecast>(`/reports/procurement-forecast?month=${month}`);
+      setForecast(f);
+    } finally {
+      setForecastLoading(false);
+    }
+  }
 
   if (loading) return <p>Завантаження…</p>;
 
@@ -68,6 +84,9 @@ export default function Reports() {
         </button>
         <button className={`btn ${tab === "box-usage" ? "" : "secondary"}`} onClick={() => setTab("box-usage")}>
           Коробки по типах
+        </button>
+        <button className={`btn ${tab === "forecast" ? "" : "secondary"}`} onClick={() => setTab("forecast")}>
+          Прогноз закупівлі
         </button>
       </div>
 
@@ -222,6 +241,78 @@ export default function Reports() {
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {tab === "forecast" && (
+        <div className="card">
+          <p style={{ color: "var(--text-muted)", fontSize: 13 }}>
+            Скільки коробок/матеріалів треба докупити на обраний місяць і скільки це коштуватиме — виходячи із
+            середнього денного розходу зі «Складу» за весь наявний період, за вирахуванням поточного залишку.
+            Чим більше місяців даних у Складі — тим точніший прогноз.
+          </p>
+          <div className="form-grid" style={{ alignItems: "end", marginBottom: 12, maxWidth: 260 }}>
+            <label>
+              Місяць прогнозу
+              <input
+                className="input"
+                type="month"
+                value={forecastMonth}
+                onChange={(e) => {
+                  setForecastMonth(e.target.value);
+                  loadForecast(e.target.value);
+                }}
+              />
+            </label>
+          </div>
+
+          {forecastLoading && <p>Рахую…</p>}
+
+          {forecast && !forecastLoading && (
+            <>
+              <div style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 8 }}>
+                Днів у місяці: {forecast.days_in_target_month}
+              </div>
+              <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 12 }}>
+                Разом треба підготувати: {forecast.total_cost_uah.toLocaleString("uk-UA", { maximumFractionDigits: 0 })} грн
+              </div>
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Позиція</th>
+                      <th>Серед. розхід/день</th>
+                      <th>Потреба на місяць</th>
+                      <th>Поточний залишок</th>
+                      <th>Треба докупити</th>
+                      <th>Ціна, грн</th>
+                      <th>Сума, грн</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {forecast.items.map((it, i) => (
+                      <tr key={i} style={{ background: it.price_missing ? "#fff3cd" : undefined }}>
+                        <td>{it.name}</td>
+                        <td>{it.daily_rate}</td>
+                        <td>{it.projected_need}</td>
+                        <td>{it.current_balance}</td>
+                        <td>{it.to_buy}</td>
+                        <td>{it.price_missing ? "немає ціни" : it.price}</td>
+                        <td>{it.cost_uah}</td>
+                      </tr>
+                    ))}
+                    {!forecast.items.length && (
+                      <tr>
+                        <td colSpan={7} style={{ color: "var(--text-muted)" }}>
+                          Ще немає рухів «розхід» на сторінці «Склад» — прогнозувати нема з чого.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>

@@ -133,6 +133,25 @@ export interface BoxUsageMonthly {
   box_type_name: string;
   qty: string;
 }
+export interface ProcurementForecastItem {
+  item_type: "box" | "material";
+  box_type_id: number | null;
+  material_id: number | null;
+  name: string;
+  daily_rate: string;
+  current_balance: string;
+  price: string | null;
+  projected_need: string;
+  to_buy: string;
+  cost_uah: string;
+  price_missing: boolean;
+}
+export interface ProcurementForecast {
+  target_month: string;
+  days_in_target_month: number;
+  items: ProcurementForecastItem[];
+  total_cost_uah: number;
+}
 export interface AnnualSummary extends Omit<MonthlySummary, "month"> {
   year: string;
 }
