@@ -120,6 +120,19 @@ export interface MonthlySummary {
   packaging_cost_uah: string;
   savings_uah: string;
 }
+export interface PackagingCostPerOrder {
+  month: string;
+  packaging_cost_uah: string;
+  qty_without_price: string;
+  qty_shipped: string;
+  cost_per_order: string | null;
+}
+export interface BoxUsageMonthly {
+  month: string;
+  box_type_id: number;
+  box_type_name: string;
+  qty: string;
+}
 export interface AnnualSummary extends Omit<MonthlySummary, "month"> {
   year: string;
 }
